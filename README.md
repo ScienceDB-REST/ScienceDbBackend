@@ -38,7 +38,7 @@ _Note_: All API endpoints require a successful log-in using cookies!
 
 To create a single instance of a given data model (a row in the relation database) use the following command.
 
-`curl -b ./cookies.tmp --data "name=XYZ&position=1234&&chromosome=chr1" 'http://science.db:3030/markers'
+`curl -b ./cookies.tmp --data "name=XYZ&position=1234&&chromosome=chr1" 'http://science.db:3030/markers'`
 
 ##### Bulk create
 
@@ -99,7 +99,7 @@ The following example code explains how to obtain data from Kodiaq-DB from withi
 ````
 require(httr)
 login.res <- POST('http://science.db:3030/login',
-body=list('email'='m.enders@npz-innovation.de',
+body=list('email'='admin.email@science.db',
 'password'='####')
 )
 markers.res <- GET('http://science.db:3030/markers')
