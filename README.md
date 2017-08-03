@@ -4,9 +4,9 @@ This is a skeleton NodeJS project using the technology explained in this [Blog p
 
 The package is meant to integrate with Code Generators enabling the quick and easy definition and migration of (scientific) data models. See:
 
-* [Data Model Code Generation](https://github.com/asishallab/express_route_gen_js)
-* [Graphical User Interface as Single Page Web Application (VueJS)](https://github.com/asishallab/ScienceDbGui)
-* [Code Generator for the above GUI](https://github.com/asishallab/admin_gui_gen)
+* [Data Model Code Generation](https://github.com/ScienceDb/express_route_gen_js)
+* [Graphical User Interface as Single Page Web Application (VueJS)](https://github.com/ScienceDb/ScienceDbGui)
+* [Code Generator for the above GUI](https://github.com/ScienceDb/admin_gui_gen)
 
 ## Setup
 
@@ -49,7 +49,9 @@ To create many model instances (rows in the relational database’s respective t
 
 ###### Excel (XLSX)
 
-`curl -b cookies.tmp -F 'xlsx_file=@./DS_06_TempLogger_converted.xlsx' 'http://science.db:3030/warehouse_climates/upload_xlsx'`
+````
+curl -b cookies.tmp -F 'xlsx_file=@./DS_06_TempLogger_converted.xlsx' 'http://science.db:3030/warehouse_climates/upload_xlsx'
+````
 
 #### READ
 A single, a subset, or all instances of a given model can be read. Here, a single model is identified by its ID, while a subset can be obtained by pagination (page and per_page parameters), and or or by searching (filter parameter) textual model-fields (textual columns in the respective relational database’s table).
