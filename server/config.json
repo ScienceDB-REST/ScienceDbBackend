@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "kodiaq",
-    "password": "kodiaq",
+    "username": "postgres",
+    "password": "",
     "database": "kodiaq_development",
     "host": "127.0.0.1",
     "port": "5432",
     "dialect": "postgres"
   },
   "test": {
-    "username": "kodiaq",
-    "password": "kodiaq",
+    "username": "postgres",
+    "password": "",
     "database": "kodiaq_test",
     "host": "127.0.0.1",
     "port": "5432",
     "dialect": "postgres"
   },
   "production": {
-    "username": "kodiaq",
-    "password": "kodiaq",
+    "username": "postgres",
+    "password": "",
     "database": "kodiaq_production",
     "host": "127.0.0.1",
     "port": "5432",
