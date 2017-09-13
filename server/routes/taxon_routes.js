@@ -15,13 +15,14 @@ router.get('/taxons', function(req, res) {
 
 // get single taxon
 router.get('/taxon/:id', function(req, res) {
-    models.
-    taxon.find({
+    w = {
         where: {
             id: req.params.id
-        },
-        include: [{all: true}]
-    }).then(function(x) {
+        }
+    }
+    i = helper.includeAssociations(req)
+    models.
+    taxon.find(objectAssign(w, i)).then(function(x) {
         res.json(x);
     }).catch(function(err) {
         res.status(500).json(err)

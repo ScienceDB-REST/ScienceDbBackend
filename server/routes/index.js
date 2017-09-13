@@ -1,6 +1,7 @@
 // Required packages:
 // - Some are _not_ defined as local variables in order to enable required
 // files to use these imports:
+objectAssign = require('object-assign');
 express = require('express');
 models = require('../models/index');
 router = express.Router();
