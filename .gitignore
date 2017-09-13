@@ -5,3 +5,4 @@ blog.md
 *.csv
 kodiaq_development_dump_*.sql
 cookies.tmp
+.idea
