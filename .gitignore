@@ -6,3 +6,4 @@ blog.md
 kodiaq_development_dump_*.sql
 cookies.tmp
 .idea
+.vscode-upload.json
