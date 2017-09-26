@@ -19,7 +19,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        taxon.belongsTo(models.taxon, {foreignKey: 'parent_id', targetKey: 'id'})
+        taxon.belongsTo(models.taxon, {foreignKey: 'parent_id', targetKey: 'id', as: 'parent'})
       }
     }
   });
