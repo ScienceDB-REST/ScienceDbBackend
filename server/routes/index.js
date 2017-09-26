@@ -8,6 +8,7 @@ helper = require(__dirname + '/helper.js');
 tmp = require('tmp');
 Promise = require('bluebird');
 passport = require('passport');
+objectAssign = require('object-assign');
 var glob = require('glob'),
     path = require('path');
 
