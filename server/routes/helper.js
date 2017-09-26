@@ -1,5 +1,8 @@
 const objectAssign = require('object-assign');
 const math = require('mathjs');
+const XLSX = require('xlsx');
+const Promise = require('bluebird');
+const csv_parse = Promise.promisify(require('csv-parse'));
 
 var exports = module.exports = {};
 
@@ -41,11 +44,20 @@ exports.search = function(req, strAttributes) {
   return selectOpts;
 }
 
+exports.includeAssociations = function (req) {
+  return req.query.excludeAssociations ? {} : {
+    include: [{
+      all: true
+    }]
+  }
+}
+
 exports.searchPaginate = function(req, strAttributes) {
   return objectAssign(
     exports.search(req, strAttributes),
     exports.sort(req),
-    exports.paginate(req)
+    exports.paginate(req),
+    exports.includeAssociations(req)
   );
 }
 
@@ -93,24 +105,21 @@ exports.modelCsvExample = function(model, discardAttrs) {
   })
 }
 
-exports.csvRowToMap = function(csvHeader, csvRow) {
-  csvMap = {}
-  for (var i = 0, len = csvHeader.length; i < len; i++) {
-    csvMap[csvHeader[i]] = csvRow[i]
-  }
-  return csvMap
+exports.parseCsv = function(csvStr, delim, cols) {
+    if (!delim) delim = ","
+    if (typeof cols === 'undefined') cols = true
+    return csv_parse(csvStr, {
+      delimiter: delim,
+      columns: cols
+    })
 }
 
-exports.parseCsv = function(csvStr) {
-  csvRows = csvStr.split(/\n|\r/)
-  csvHeader = csvRows[0].split(/,/)
-  csvMaps = []
-  for (var i = 1, len = csvRows.length; i < len; i++) {
-    csvMaps = csvMaps.concat([exports.csvRowToMap(csvHeader,
-      csvRows[i].split(
-        /,/))])
-  }
-  return csvMaps
+exports.parseXlsx = function(bstr) {
+  var workbook = XLSX.read(bstr, {
+    type: "binary"
+  });
+  var sheet_name_list = workbook.SheetNames;
+  return XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 }
 
 exports.requestedUrl = function(req) {
