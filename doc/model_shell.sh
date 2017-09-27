@@ -11,7 +11,6 @@ express_route_gen . --name ﬁeld_plot --attributes 'ﬁeld_name:string, latitud
 
 express_route_gen . --name pot --attributes 'pot:string, greenhouse:string, climate_chamber:string, conditions:string'
 ./node_modules/.bin/sequelize model:create --name cultivar --attributes 'description:string, genotype:string, taxon_id:integer'
-cultivar.belongsTo(models.taxon, {foreignKey: 'taxon_id', targetKey: 'id'})
 ./node_modules/.bin/sequelize db:migrate
 
 express_route_gen . --name cultivar --attributes 'description:string, genotype:string, taxon_id:integer'
