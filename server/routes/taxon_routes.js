@@ -31,20 +31,50 @@ router.get('/taxon/:id', function(req, res) {
 
 // get example CSV for subsequent bulk create
 router.get('/taxons/example_csv', function(req, res) {
-    helper.modelCsvExample(models.taxon).then(function(modelCsvArr) {
-        res.csv(modelCsvArr)
-    })
-})
+
+    var params = JSON.parse(req.query.array);
+    var fileType = 'csv';
+
+    if('excel' in req.query && req.query.excel){
+        fileType = 'excel';
+    }
+
+    models.
+    taxon.findAll().then(function(taxons) {
+        var rsData = helper.filterNotIn(taxons, params);
+        if(fileType === 'excel'){
+            res.csv(rsData.map(item => item.dataValues), true);
+        }
+        else{
+            res.csv(rsData.map(item => item.dataValues), true);
+        }
+        
+    }).catch(function(err) {
+        res.status(500).json(err)
+    });
+});
 
 // get for vue-table
 router.get('/taxons/vue_table', function(req, res) {
-    helper.vueTable(req, models.taxon, ["name", "taxonomic_level"]).then(
+    helper.vueTable(req, models.taxon, ["id", "name", "taxonomic_level"]).then(
         function(x) {
             res.json(x)
         }).catch(function(err) {
         res.status(500).json(err)
     })
 });
+
+// get taxon Data-Model definition 
+router.get('/taxons/definition', function(req, res) {
+    models.
+    taxon.findAll().then(function(taxons) {
+        var modelData = helper.dataModel(taxons);
+        res.json(modelData);        
+    }).catch(function(err) {
+        res.status(500).json(err)
+    });
+});
+
 //
 // POST REQUESTS
 //
@@ -119,15 +149,20 @@ router.put('/taxon/:id', function(req, res) {
 //
 // DELETE REQUESTS
 //
-// delete a single taxon
-router.delete('/taxon/:id', function(req, res) {
+// delete a taxon/taxons
+//router.delete('/taxon/:id', function(req, res) {
+//    id: req.params.id
+router.delete('/taxon/(:arr)*', function(req, res) {
+
+    var params = [req.params.arr].concat(req.params[0].split('/').slice(1));
+
     models.taxon.destroy({
         where: {
-            id: req.params.id
+            id: params
         }
     }).then(function(taxon) {
         res.json(taxon);
     }).catch(function(err) {
         res.status(500).json(err)
-    })
+    })    
 });
