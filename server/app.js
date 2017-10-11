@@ -12,7 +12,9 @@ var session = require('express-session');
 var passport = require('passport');
 var fs = require('fs');
 var acl = require('acl');
-csv = require('express-csv');
+//csv = require('express-csv');
+//json2xls = require('json2xls');
+csv = require('csv-express');
 
 
 // ACL rules:
@@ -75,6 +77,9 @@ app.use(session({ secret: 'super-secret' }));
 app.use(passport.initialize());
 app.use(passport.session());
 // See also server/models/index.js for more details!
+
+//for Excel export:
+//app.use(json2xls.middleware);
 
 // *** main routes *** //
 app.use('/', routes);
