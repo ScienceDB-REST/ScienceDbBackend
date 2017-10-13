@@ -85,9 +85,6 @@ app.use(passport.session());
 app.use('/', routes);
 
 
-// *** enable ALL CORS requests *** //
-app.use(cors);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -95,6 +92,9 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+// *** enable ALL CORS requests *** //
+app.use(cors);
 
 
 // *** error handlers *** //
