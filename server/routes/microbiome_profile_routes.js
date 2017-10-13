@@ -31,8 +31,23 @@ router.get('/microbiome_profile/:id', function(req, res) {
 
 // get example CSV for subsequent bulk create
 router.get('/microbiome_profiles/example_csv', function(req, res) {
-    helper.modelCsvExample(models.microbiome_profile).then(function(modelCsvArr) {
-        res.csv(modelCsvArr)
+    var params = JSON.parse(req.query.array);
+    var fileType = 'csv';
+
+    if ('excel' in req.query && req.query.excel) {
+        fileType = 'excel';
+    }
+
+    models.
+    microbiome_profile.findAll().then(function(microbiome_profiles) {
+        var filteredData = helper.filterNotIn(microbiome_profiles, params);
+        if (fileType === 'excel') {
+            res.csv(filteredData.map(item => item.dataValues), true);
+        } else {
+            res.csv(filteredData.map(item => item.dataValues), true);
+        }
+    }).catch(function(err) {
+        res.status(500).json(err)
     })
 })
 
@@ -45,16 +60,28 @@ router.get('/microbiome_profiles/vue_table', function(req, res) {
         res.status(500).json(err)
     })
 });
+
+// get microbiome_profile Data-Model definition 
+router.get('/microbiome_profiles/definition', function(req, res) {
+    models.
+    microbiome_profile.findAll().then(function(microbiome_profiles) {
+        var modelData = helper.dataModel(microbiome_profiles);
+        res.json(modelData);
+    }).catch(function(err) {
+        res.status(500).json(err)
+    });
+});
 //
 // POST REQUESTS
 //
 // add new microbiome_profile
 router.post('/microbiome_profiles', function(req, res) {
-    models.microbiome_profile.create({
-        microbiome_sample_id: req.body.microbiome_sample_id,
-        taxon_id: req.body.taxon_id,
-        count: req.body.count
-    }).then(function(microbiome_profile) {
+    models.microbiome_profile.create(helper.assignForIntersectedKeys({
+        microbiome_sample_id: null,
+        taxon_id: null,
+        count: null
+
+    }, req.body)).then(function(microbiome_profile) {
         res.json(microbiome_profile);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -101,11 +128,12 @@ router.put('/microbiome_profile/:id', function(req, res) {
         }
     }).then(function(microbiome_profile) {
         if (microbiome_profile) {
-            microbiome_profile.updateAttributes({
-                microbiome_sample_id: req.body.microbiome_sample_id,
-                taxon_id: req.body.taxon_id,
-                count: req.body.count
-            }).then(function(microbiome_profile) {
+            microbiome_profile.updateAttributes(helper.assignForIntersectedKeys({
+                microbiome_sample_id: null,
+                taxon_id: null,
+                count: null
+
+            }, req.body)).then(function(microbiome_profile) {
                 res.send(microbiome_profile);
             }).catch(function(err) {
                 res.status(500).json(err)

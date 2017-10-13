@@ -184,6 +184,10 @@ exports.dataModel = function(modelObjs) {
   return data;
 }
 
+exports.filterNotIn = function(modelObj, params) {
+  return modelObj.filter(item => !params.includes(item.id));
+}
+
 exports.assignForIntersectedKeys = function(options, body) {
   var updated = _.pick(body, _.keys(options));
   return updated;

@@ -31,8 +31,23 @@ router.get('/field_plot/:id', function(req, res) {
 
 // get example CSV for subsequent bulk create
 router.get('/field_plots/example_csv', function(req, res) {
-    helper.modelCsvExample(models.field_plot).then(function(modelCsvArr) {
-        res.csv(modelCsvArr)
+    var params = JSON.parse(req.query.array);
+    var fileType = 'csv';
+
+    if ('excel' in req.query && req.query.excel) {
+        fileType = 'excel';
+    }
+
+    models.
+    field_plot.findAll().then(function(field_plots) {
+        var filteredData = helper.filterNotIn(field_plots, params);
+        if (fileType === 'excel') {
+            res.csv(filteredData.map(item => item.dataValues), true);
+        } else {
+            res.csv(filteredData.map(item => item.dataValues), true);
+        }
+    }).catch(function(err) {
+        res.status(500).json(err)
     })
 })
 
@@ -45,18 +60,30 @@ router.get('/field_plots/vue_table', function(req, res) {
         res.status(500).json(err)
     })
 });
+
+// get field_plot Data-Model definition 
+router.get('/field_plots/definition', function(req, res) {
+    models.
+    field_plot.findAll().then(function(field_plots) {
+        var modelData = helper.dataModel(field_plots);
+        res.json(modelData);
+    }).catch(function(err) {
+        res.status(500).json(err)
+    });
+});
 //
 // POST REQUESTS
 //
 // add new field_plot
 router.post('/field_plots', function(req, res) {
-    models.field_plot.create({
-        field_name: req.body.field_name,
-        latitude: req.body.latitude,
-        longitude: req.body.longitude,
-        location_code: req.body.location_code,
-        soil_treatment: req.body.soil_treatment
-    }).then(function(field_plot) {
+    models.field_plot.create(helper.assignForIntersectedKeys({
+        field_name: null,
+        latitude: null,
+        longitude: null,
+        location_code: null,
+        soil_treatment: null
+
+    }, req.body)).then(function(field_plot) {
         res.json(field_plot);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -103,13 +130,14 @@ router.put('/field_plot/:id', function(req, res) {
         }
     }).then(function(field_plot) {
         if (field_plot) {
-            field_plot.updateAttributes({
-                field_name: req.body.field_name,
-                latitude: req.body.latitude,
-                longitude: req.body.longitude,
-                location_code: req.body.location_code,
-                soil_treatment: req.body.soil_treatment
-            }).then(function(field_plot) {
+            field_plot.updateAttributes(helper.assignForIntersectedKeys({
+                field_name: null,
+                latitude: null,
+                longitude: null,
+                location_code: null,
+                soil_treatment: null
+
+            }, req.body)).then(function(field_plot) {
                 res.send(field_plot);
             }).catch(function(err) {
                 res.status(500).json(err)

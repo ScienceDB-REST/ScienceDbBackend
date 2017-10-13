@@ -31,8 +31,23 @@ router.get('/microbiome_sample/:id', function(req, res) {
 
 // get example CSV for subsequent bulk create
 router.get('/microbiome_samples/example_csv', function(req, res) {
-    helper.modelCsvExample(models.microbiome_sample).then(function(modelCsvArr) {
-        res.csv(modelCsvArr)
+    var params = JSON.parse(req.query.array);
+    var fileType = 'csv';
+
+    if ('excel' in req.query && req.query.excel) {
+        fileType = 'excel';
+    }
+
+    models.
+    microbiome_sample.findAll().then(function(microbiome_samples) {
+        var filteredData = helper.filterNotIn(microbiome_samples, params);
+        if (fileType === 'excel') {
+            res.csv(filteredData.map(item => item.dataValues), true);
+        } else {
+            res.csv(filteredData.map(item => item.dataValues), true);
+        }
+    }).catch(function(err) {
+        res.status(500).json(err)
     })
 })
 

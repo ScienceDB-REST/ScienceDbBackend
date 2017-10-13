@@ -31,8 +31,23 @@ router.get('/soil_sample/:id', function(req, res) {
 
 // get example CSV for subsequent bulk create
 router.get('/soil_samples/example_csv', function(req, res) {
-    helper.modelCsvExample(models.soil_sample).then(function(modelCsvArr) {
-        res.csv(modelCsvArr)
+    var params = JSON.parse(req.query.array);
+    var fileType = 'csv';
+
+    if ('excel' in req.query && req.query.excel) {
+        fileType = 'excel';
+    }
+
+    models.
+    soil_sample.findAll().then(function(soil_samples) {
+        var filteredData = helper.filterNotIn(soil_samples, params);
+        if (fileType === 'excel') {
+            res.csv(filteredData.map(item => item.dataValues), true);
+        } else {
+            res.csv(filteredData.map(item => item.dataValues), true);
+        }
+    }).catch(function(err) {
+        res.status(500).json(err)
     })
 })
 

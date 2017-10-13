@@ -31,8 +31,23 @@ router.get('/taxon/:id', function(req, res) {
 
 // get example CSV for subsequent bulk create
 router.get('/taxons/example_csv', function(req, res) {
-    helper.modelCsvExample(models.taxon).then(function(modelCsvArr) {
-        res.csv(modelCsvArr)
+    var params = JSON.parse(req.query.array);
+    var fileType = 'csv';
+
+    if ('excel' in req.query && req.query.excel) {
+        fileType = 'excel';
+    }
+
+    models.
+    taxon.findAll().then(function(taxons) {
+        var filteredData = helper.filterNotIn(taxons, params);
+        if (fileType === 'excel') {
+            res.csv(filteredData.map(item => item.dataValues), true);
+        } else {
+            res.csv(filteredData.map(item => item.dataValues), true);
+        }
+    }).catch(function(err) {
+        res.status(500).json(err)
     })
 })
 

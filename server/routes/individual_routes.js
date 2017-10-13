@@ -31,8 +31,23 @@ router.get('/individual/:id', function(req, res) {
 
 // get example CSV for subsequent bulk create
 router.get('/individuals/example_csv', function(req, res) {
-    helper.modelCsvExample(models.individual).then(function(modelCsvArr) {
-        res.csv(modelCsvArr)
+    var params = JSON.parse(req.query.array);
+    var fileType = 'csv';
+
+    if ('excel' in req.query && req.query.excel) {
+        fileType = 'excel';
+    }
+
+    models.
+    individual.findAll().then(function(individuals) {
+        var filteredData = helper.filterNotIn(individuals, params);
+        if (fileType === 'excel') {
+            res.csv(filteredData.map(item => item.dataValues), true);
+        } else {
+            res.csv(filteredData.map(item => item.dataValues), true);
+        }
+    }).catch(function(err) {
+        res.status(500).json(err)
     })
 })
 
@@ -66,7 +81,7 @@ router.post('/individuals', function(req, res) {
         sowing_date: null,
         harvest_date: null,
         cultivar_id: null,
-        ﬁeld_plot_id: null,
+        field_plot_id: null,
         pot_id: null
 
     }, req.body)).then(function(individual) {
@@ -121,7 +136,7 @@ router.put('/individual/:id', function(req, res) {
                 sowing_date: null,
                 harvest_date: null,
                 cultivar_id: null,
-                ﬁeld_plot_id: null,
+                field_plot_id: null,
                 pot_id: null
 
             }, req.body)).then(function(individual) {
