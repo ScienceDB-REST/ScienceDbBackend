@@ -45,6 +45,17 @@ router.get('/taxons/vue_table', function(req, res) {
         res.status(500).json(err)
     })
 });
+
+// get taxon Data-Model definition 
+router.get('/taxons/definition', function(req, res) {
+    models.
+    taxon.findAll().then(function(taxons) {
+        var modelData = helper.dataModel(taxons);
+        res.json(modelData);
+    }).catch(function(err) {
+        res.status(500).json(err)
+    });
+});
 //
 // POST REQUESTS
 //

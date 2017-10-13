@@ -45,6 +45,17 @@ router.get('/individuals/vue_table', function(req, res) {
         res.status(500).json(err)
     })
 });
+
+// get individual Data-Model definition 
+router.get('/individuals/definition', function(req, res) {
+    models.
+    individual.findAll().then(function(individuals) {
+        var modelData = helper.dataModel(individuals);
+        res.json(modelData);
+    }).catch(function(err) {
+        res.status(500).json(err)
+    });
+});
 //
 // POST REQUESTS
 //
@@ -55,7 +66,7 @@ router.post('/individuals', function(req, res) {
         sowing_date: req.body.sowing_date,
         harvest_date: req.body.harvest_date,
         cultivar_id: req.body.cultivar_id,
-        field_plot_id: req.body.field_plot_id,
+        ﬁeld_plot_id: req.body.ﬁeld_plot_id,
         pot_id: req.body.pot_id
     }).then(function(individual) {
         res.json(individual);
@@ -109,7 +120,7 @@ router.put('/individual/:id', function(req, res) {
                 sowing_date: req.body.sowing_date,
                 harvest_date: req.body.harvest_date,
                 cultivar_id: req.body.cultivar_id,
-                field_plot_id: req.body.field_plot_id,
+                ﬁeld_plot_id: req.body.ﬁeld_plot_id,
                 pot_id: req.body.pot_id
             }).then(function(individual) {
                 res.send(individual);

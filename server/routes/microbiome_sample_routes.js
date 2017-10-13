@@ -45,6 +45,17 @@ router.get('/microbiome_samples/vue_table', function(req, res) {
         res.status(500).json(err)
     })
 });
+
+// get microbiome_sample Data-Model definition 
+router.get('/microbiome_samples/definition', function(req, res) {
+    models.
+    microbiome_sample.findAll().then(function(microbiome_samples) {
+        var modelData = helper.dataModel(microbiome_samples);
+        res.json(modelData);
+    }).catch(function(err) {
+        res.status(500).json(err)
+    });
+});
 //
 // POST REQUESTS
 //

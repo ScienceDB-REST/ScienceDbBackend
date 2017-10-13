@@ -45,6 +45,17 @@ router.get('/cultivars/vue_table', function(req, res) {
         res.status(500).json(err)
     })
 });
+
+// get cultivar Data-Model definition 
+router.get('/cultivars/definition', function(req, res) {
+    models.
+    cultivar.findAll().then(function(cultivars) {
+        var modelData = helper.dataModel(cultivars);
+        res.json(modelData);
+    }).catch(function(err) {
+        res.status(500).json(err)
+    });
+});
 //
 // POST REQUESTS
 //

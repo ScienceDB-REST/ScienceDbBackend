@@ -45,6 +45,17 @@ router.get('/pots/vue_table', function(req, res) {
         res.status(500).json(err)
     })
 });
+
+// get pot Data-Model definition 
+router.get('/pots/definition', function(req, res) {
+    models.
+    pot.findAll().then(function(pots) {
+        var modelData = helper.dataModel(pots);
+        res.json(modelData);
+    }).catch(function(err) {
+        res.status(500).json(err)
+    });
+});
 //
 // POST REQUESTS
 //

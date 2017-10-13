@@ -173,3 +173,12 @@ exports.vueTable = function(req, model, strAttributes) {
       }
     })
 }
+
+exports.dataModel = function(modelObjs) {
+  var modelObj = modelObjs[0];
+  var data = modelObjs[0].dataValues;
+  for(var key in modelObj.dataValues){
+    data[key] = ({}).toString.call(modelObj.dataValues[key]).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+  }
+  return data;
+}
