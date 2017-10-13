@@ -29,27 +29,55 @@ exports.sort = function(req) {
 
 exports.search = function(req, strAttributes) {
   selectOpts = {}
-  if (req.query.filter) {
-    fieldClauses = []
-    strAttributes.forEach(function(x) {
-      fieldWhereClause = {}
-      if(x !== "id"){
-        fieldWhereClause[x] = {
-          $like: "%" + req.query.filter + "%"
-        }
-        fieldClauses = fieldClauses.concat([fieldWhereClause])
-      }
-      else{        
-        if(/^\d+$/.test(req.query.filter)){
-          fieldWhereClause[x] = req.query.filter
 
-          fieldClauses = fieldClauses.concat([fieldWhereClause])
-        }        
+  if (req.query.filter) {
+    fieldClauses = [];
+
+    var queryObj;
+
+    try {
+      var queryObj = JSON.parse(req.query.filter);
+      if ("extended" in queryObj) {
+        for (var property in queryObj.extended) {
+          if (queryObj.extended.hasOwnProperty(property)) {
+            fieldWhereClause = {};
+
+            if (property == "dateFrom" || property == "dateTo") {
+              //date from and to:
+            } else {
+              fieldWhereClause[property] = { $like: "%" + queryObj.extended[property] + "%" };
+              fieldClauses = fieldClauses.concat([fieldWhereClause]);
+            }
+          }
+        }
+
+        if (queryObj.extended.hasOwnProperty('dateFrom')) {
+          fieldWhereClause = {};
+
+          fieldWhereClause['createdAt'] = { $between: [queryObj.extended['dateFrom'], queryObj.extended['dateTo']] };
+          fieldClauses = fieldClauses.concat([fieldWhereClause]);
+        }
       }
-      
-    })
-    selectOpts['where'] = {
-      $or: fieldClauses
+
+      selectOpts["where"] = { $and: fieldClauses };
+      return selectOpts;
+    } catch (e) {      
+      strAttributes.forEach(function(x) {
+        fieldWhereClause = {};
+        if (x !== "id") {
+          fieldWhereClause[x] = { $like: "%" + req.query.filter + "%" };
+          fieldClauses = fieldClauses.concat([fieldWhereClause]);
+        } else {
+          if (/^\d+$/.test(req.query.filter)) {
+            fieldWhereClause[x] = req.query.filter;
+
+            fieldClauses = fieldClauses.concat([fieldWhereClause]);
+          }
+        }
+      });
+      selectOpts["where"] = { $or: fieldClauses };
+
+      return selectOpts;
     }
   }
   return selectOpts;
