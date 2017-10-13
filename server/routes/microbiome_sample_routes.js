@@ -159,11 +159,14 @@ router.put('/microbiome_sample/:id', function(req, res) {
 //
 // DELETE REQUESTS
 //
-// delete a single microbiome_sample
-router.delete('/microbiome_sample/:id', function(req, res) {
+// delete a microbiome_sample or microbiome_samples
+router.delete('/microbiome_sample/(:arr)*', function(req, res) {
+
+    var params = [req.params.arr].concat(req.params[0].split('/').slice(1));
+
     models.microbiome_sample.destroy({
         where: {
-            id: req.params.id
+            id: params
         }
     }).then(function(microbiome_sample) {
         res.json(microbiome_sample);

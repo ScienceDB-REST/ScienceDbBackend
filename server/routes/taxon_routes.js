@@ -147,11 +147,14 @@ router.put('/taxon/:id', function(req, res) {
 //
 // DELETE REQUESTS
 //
-// delete a single taxon
-router.delete('/taxon/:id', function(req, res) {
+// delete a taxon or taxons
+router.delete('/taxon/(:arr)*', function(req, res) {
+
+    var params = [req.params.arr].concat(req.params[0].split('/').slice(1));
+
     models.taxon.destroy({
         where: {
-            id: req.params.id
+            id: params
         }
     }).then(function(taxon) {
         res.json(taxon);

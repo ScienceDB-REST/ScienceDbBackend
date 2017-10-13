@@ -147,11 +147,14 @@ router.put('/cultivar/:id', function(req, res) {
 //
 // DELETE REQUESTS
 //
-// delete a single cultivar
-router.delete('/cultivar/:id', function(req, res) {
+// delete a cultivar or cultivars
+router.delete('/cultivar/(:arr)*', function(req, res) {
+
+    var params = [req.params.arr].concat(req.params[0].split('/').slice(1));
+
     models.cultivar.destroy({
         where: {
-            id: req.params.id
+            id: params
         }
     }).then(function(cultivar) {
         res.json(cultivar);

@@ -149,11 +149,14 @@ router.put('/pot/:id', function(req, res) {
 //
 // DELETE REQUESTS
 //
-// delete a single pot
-router.delete('/pot/:id', function(req, res) {
+// delete a pot or pots
+router.delete('/pot/(:arr)*', function(req, res) {
+
+    var params = [req.params.arr].concat(req.params[0].split('/').slice(1));
+
     models.pot.destroy({
         where: {
-            id: req.params.id
+            id: params
         }
     }).then(function(pot) {
         res.json(pot);

@@ -153,11 +153,14 @@ router.put('/individual/:id', function(req, res) {
 //
 // DELETE REQUESTS
 //
-// delete a single individual
-router.delete('/individual/:id', function(req, res) {
+// delete a individual or individuals
+router.delete('/individual/(:arr)*', function(req, res) {
+
+    var params = [req.params.arr].concat(req.params[0].split('/').slice(1));
+
     models.individual.destroy({
         where: {
-            id: req.params.id
+            id: params
         }
     }).then(function(individual) {
         res.json(individual);

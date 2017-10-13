@@ -151,11 +151,14 @@ router.put('/field_plot/:id', function(req, res) {
 //
 // DELETE REQUESTS
 //
-// delete a single field_plot
-router.delete('/field_plot/:id', function(req, res) {
+// delete a field_plot or field_plots
+router.delete('/field_plot/(:arr)*', function(req, res) {
+
+    var params = [req.params.arr].concat(req.params[0].split('/').slice(1));
+
     models.field_plot.destroy({
         where: {
-            id: req.params.id
+            id: params
         }
     }).then(function(field_plot) {
         res.json(field_plot);

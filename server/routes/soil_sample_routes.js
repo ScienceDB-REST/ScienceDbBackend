@@ -149,11 +149,14 @@ router.put('/soil_sample/:id', function(req, res) {
 //
 // DELETE REQUESTS
 //
-// delete a single soil_sample
-router.delete('/soil_sample/:id', function(req, res) {
+// delete a soil_sample or soil_samples
+router.delete('/soil_sample/(:arr)*', function(req, res) {
+
+    var params = [req.params.arr].concat(req.params[0].split('/').slice(1));
+
     models.soil_sample.destroy({
         where: {
-            id: req.params.id
+            id: params
         }
     }).then(function(soil_sample) {
         res.json(soil_sample);
