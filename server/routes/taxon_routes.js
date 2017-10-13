@@ -61,11 +61,12 @@ router.get('/taxons/definition', function(req, res) {
 //
 // add new taxon
 router.post('/taxons', function(req, res) {
-    models.taxon.create({
-        name: req.body.name,
-        taxonomic_level: req.body.taxonomic_level,
-        parent_id: req.body.parent_id
-    }).then(function(taxon) {
+    models.taxon.create(helper.assignForIntersectedKeys({
+        name: null,
+        taxonomic_level: null,
+        parent_id: null
+
+    }, req.body)).then(function(taxon) {
         res.json(taxon);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -112,11 +113,12 @@ router.put('/taxon/:id', function(req, res) {
         }
     }).then(function(taxon) {
         if (taxon) {
-            taxon.updateAttributes({
-                name: req.body.name,
-                taxonomic_level: req.body.taxonomic_level,
-                parent_id: req.body.parent_id
-            }).then(function(taxon) {
+            taxon.updateAttributes(helper.assignForIntersectedKeys({
+                name: null,
+                taxonomic_level: null,
+                parent_id: null
+
+            }, req.body)).then(function(taxon) {
                 res.send(taxon);
             }).catch(function(err) {
                 res.status(500).json(err)

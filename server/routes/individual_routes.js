@@ -61,14 +61,15 @@ router.get('/individuals/definition', function(req, res) {
 //
 // add new individual
 router.post('/individuals', function(req, res) {
-    models.individual.create({
-        name: req.body.name,
-        sowing_date: req.body.sowing_date,
-        harvest_date: req.body.harvest_date,
-        cultivar_id: req.body.cultivar_id,
-        ﬁeld_plot_id: req.body.ﬁeld_plot_id,
-        pot_id: req.body.pot_id
-    }).then(function(individual) {
+    models.individual.create(helper.assignForIntersectedKeys({
+        name: null,
+        sowing_date: null,
+        harvest_date: null,
+        cultivar_id: null,
+        ﬁeld_plot_id: null,
+        pot_id: null
+
+    }, req.body)).then(function(individual) {
         res.json(individual);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -115,14 +116,15 @@ router.put('/individual/:id', function(req, res) {
         }
     }).then(function(individual) {
         if (individual) {
-            individual.updateAttributes({
-                name: req.body.name,
-                sowing_date: req.body.sowing_date,
-                harvest_date: req.body.harvest_date,
-                cultivar_id: req.body.cultivar_id,
-                ﬁeld_plot_id: req.body.ﬁeld_plot_id,
-                pot_id: req.body.pot_id
-            }).then(function(individual) {
+            individual.updateAttributes(helper.assignForIntersectedKeys({
+                name: null,
+                sowing_date: null,
+                harvest_date: null,
+                cultivar_id: null,
+                ﬁeld_plot_id: null,
+                pot_id: null
+
+            }, req.body)).then(function(individual) {
                 res.send(individual);
             }).catch(function(err) {
                 res.status(500).json(err)

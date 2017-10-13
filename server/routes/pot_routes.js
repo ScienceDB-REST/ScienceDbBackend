@@ -61,12 +61,13 @@ router.get('/pots/definition', function(req, res) {
 //
 // add new pot
 router.post('/pots', function(req, res) {
-    models.pot.create({
-        pot: req.body.pot,
-        greenhouse: req.body.greenhouse,
-        climate_chamber: req.body.climate_chamber,
-        conditions: req.body.conditions
-    }).then(function(pot) {
+    models.pot.create(helper.assignForIntersectedKeys({
+        pot: null,
+        greenhouse: null,
+        climate_chamber: null,
+        conditions: null
+
+    }, req.body)).then(function(pot) {
         res.json(pot);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -113,12 +114,13 @@ router.put('/pot/:id', function(req, res) {
         }
     }).then(function(pot) {
         if (pot) {
-            pot.updateAttributes({
-                pot: req.body.pot,
-                greenhouse: req.body.greenhouse,
-                climate_chamber: req.body.climate_chamber,
-                conditions: req.body.conditions
-            }).then(function(pot) {
+            pot.updateAttributes(helper.assignForIntersectedKeys({
+                pot: null,
+                greenhouse: null,
+                climate_chamber: null,
+                conditions: null
+
+            }, req.body)).then(function(pot) {
                 res.send(pot);
             }).catch(function(err) {
                 res.status(500).json(err)

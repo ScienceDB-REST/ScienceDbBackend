@@ -61,17 +61,18 @@ router.get('/microbiome_samples/definition', function(req, res) {
 //
 // add new microbiome_sample
 router.post('/microbiome_samples', function(req, res) {
-    models.microbiome_sample.create({
-        name: req.body.name,
-        material: req.body.material,
-        life_cycle_phas: req.body.life_cycle_phas,
-        barcode_tag: req.body.barcode_tag,
-        description: req.body.description,
-        harvest_date: req.body.harvest_date,
-        individual_id: req.body.individual_id,
-        field_plot_id: req.body.field_plot_id,
-        pot_id: req.body.pot_id
-    }).then(function(microbiome_sample) {
+    models.microbiome_sample.create(helper.assignForIntersectedKeys({
+        name: null,
+        material: null,
+        life_cycle_phas: null,
+        barcode_tag: null,
+        description: null,
+        harvest_date: null,
+        individual_id: null,
+        field_plot_id: null,
+        pot_id: null
+
+    }, req.body)).then(function(microbiome_sample) {
         res.json(microbiome_sample);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -118,17 +119,18 @@ router.put('/microbiome_sample/:id', function(req, res) {
         }
     }).then(function(microbiome_sample) {
         if (microbiome_sample) {
-            microbiome_sample.updateAttributes({
-                name: req.body.name,
-                material: req.body.material,
-                life_cycle_phas: req.body.life_cycle_phas,
-                barcode_tag: req.body.barcode_tag,
-                description: req.body.description,
-                harvest_date: req.body.harvest_date,
-                individual_id: req.body.individual_id,
-                field_plot_id: req.body.field_plot_id,
-                pot_id: req.body.pot_id
-            }).then(function(microbiome_sample) {
+            microbiome_sample.updateAttributes(helper.assignForIntersectedKeys({
+                name: null,
+                material: null,
+                life_cycle_phas: null,
+                barcode_tag: null,
+                description: null,
+                harvest_date: null,
+                individual_id: null,
+                field_plot_id: null,
+                pot_id: null
+
+            }, req.body)).then(function(microbiome_sample) {
                 res.send(microbiome_sample);
             }).catch(function(err) {
                 res.status(500).json(err)

@@ -3,6 +3,7 @@ const math = require('mathjs');
 const XLSX = require('xlsx');
 const Promise = require('bluebird');
 const csv_parse = Promise.promisify(require('csv-parse'));
+const _ = require('lodash');
 
 var exports = module.exports = {};
 
@@ -182,3 +183,8 @@ exports.dataModel = function(modelObjs) {
   }
   return data;
 }
+
+exports.assignForIntersectedKeys = function(options, body) {
+  var updated = _.pick(body, _.keys(options));
+  return updated;
+};

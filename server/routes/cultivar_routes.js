@@ -61,11 +61,12 @@ router.get('/cultivars/definition', function(req, res) {
 //
 // add new cultivar
 router.post('/cultivars', function(req, res) {
-    models.cultivar.create({
-        description: req.body.description,
-        genotype: req.body.genotype,
-        taxon_id: req.body.taxon_id
-    }).then(function(cultivar) {
+    models.cultivar.create(helper.assignForIntersectedKeys({
+        description: null,
+        genotype: null,
+        taxon_id: null
+
+    }, req.body)).then(function(cultivar) {
         res.json(cultivar);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -112,11 +113,12 @@ router.put('/cultivar/:id', function(req, res) {
         }
     }).then(function(cultivar) {
         if (cultivar) {
-            cultivar.updateAttributes({
-                description: req.body.description,
-                genotype: req.body.genotype,
-                taxon_id: req.body.taxon_id
-            }).then(function(cultivar) {
+            cultivar.updateAttributes(helper.assignForIntersectedKeys({
+                description: null,
+                genotype: null,
+                taxon_id: null
+
+            }, req.body)).then(function(cultivar) {
                 res.send(cultivar);
             }).catch(function(err) {
                 res.status(500).json(err)

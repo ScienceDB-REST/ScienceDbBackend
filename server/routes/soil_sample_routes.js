@@ -61,12 +61,13 @@ router.get('/soil_samples/definition', function(req, res) {
 //
 // add new soil_sample
 router.post('/soil_samples', function(req, res) {
-    models.soil_sample.create({
-        name: req.body.name,
-        harvest_date: req.body.harvest_date,
-        field_plot_id: req.body.field_plot_id,
-        pot_id: req.body.pot_id
-    }).then(function(soil_sample) {
+    models.soil_sample.create(helper.assignForIntersectedKeys({
+        name: null,
+        harvest_date: null,
+        field_plot_id: null,
+        pot_id: null
+
+    }, req.body)).then(function(soil_sample) {
         res.json(soil_sample);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -113,12 +114,13 @@ router.put('/soil_sample/:id', function(req, res) {
         }
     }).then(function(soil_sample) {
         if (soil_sample) {
-            soil_sample.updateAttributes({
-                name: req.body.name,
-                harvest_date: req.body.harvest_date,
-                field_plot_id: req.body.field_plot_id,
-                pot_id: req.body.pot_id
-            }).then(function(soil_sample) {
+            soil_sample.updateAttributes(helper.assignForIntersectedKeys({
+                name: null,
+                harvest_date: null,
+                field_plot_id: null,
+                pot_id: null
+
+            }, req.body)).then(function(soil_sample) {
                 res.send(soil_sample);
             }).catch(function(err) {
                 res.status(500).json(err)

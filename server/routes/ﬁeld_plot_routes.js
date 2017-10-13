@@ -61,13 +61,14 @@ router.get('/ﬁeld_plots/definition', function(req, res) {
 //
 // add new ﬁeld_plot
 router.post('/ﬁeld_plots', function(req, res) {
-    models.ﬁeld_plot.create({
-        ﬁeld_name: req.body.ﬁeld_name,
-        latitude: req.body.latitude,
-        longitude: req.body.longitude,
-        location_code: req.body.location_code,
-        soil_treatment: req.body.soil_treatment
-    }).then(function(ﬁeld_plot) {
+    models.ﬁeld_plot.create(helper.assignForIntersectedKeys({
+        ﬁeld_name: null,
+        latitude: null,
+        longitude: null,
+        location_code: null,
+        soil_treatment: null
+
+    }, req.body)).then(function(ﬁeld_plot) {
         res.json(ﬁeld_plot);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -114,13 +115,14 @@ router.put('/ﬁeld_plot/:id', function(req, res) {
         }
     }).then(function(ﬁeld_plot) {
         if (ﬁeld_plot) {
-            ﬁeld_plot.updateAttributes({
-                ﬁeld_name: req.body.ﬁeld_name,
-                latitude: req.body.latitude,
-                longitude: req.body.longitude,
-                location_code: req.body.location_code,
-                soil_treatment: req.body.soil_treatment
-            }).then(function(ﬁeld_plot) {
+            ﬁeld_plot.updateAttributes(helper.assignForIntersectedKeys({
+                ﬁeld_name: null,
+                latitude: null,
+                longitude: null,
+                location_code: null,
+                soil_treatment: null
+
+            }, req.body)).then(function(ﬁeld_plot) {
                 res.send(ﬁeld_plot);
             }).catch(function(err) {
                 res.status(500).json(err)

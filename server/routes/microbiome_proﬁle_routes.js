@@ -61,11 +61,12 @@ router.get('/microbiome_proﬁles/definition', function(req, res) {
 //
 // add new microbiome_proﬁle
 router.post('/microbiome_proﬁles', function(req, res) {
-    models.microbiome_proﬁle.create({
-        microbiome_sample_id: req.body.microbiome_sample_id,
-        taxon_id: req.body.taxon_id,
-        count: req.body.count
-    }).then(function(microbiome_proﬁle) {
+    models.microbiome_proﬁle.create(helper.assignForIntersectedKeys({
+        microbiome_sample_id: null,
+        taxon_id: null,
+        count: null
+
+    }, req.body)).then(function(microbiome_proﬁle) {
         res.json(microbiome_proﬁle);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -112,11 +113,12 @@ router.put('/microbiome_proﬁle/:id', function(req, res) {
         }
     }).then(function(microbiome_proﬁle) {
         if (microbiome_proﬁle) {
-            microbiome_proﬁle.updateAttributes({
-                microbiome_sample_id: req.body.microbiome_sample_id,
-                taxon_id: req.body.taxon_id,
-                count: req.body.count
-            }).then(function(microbiome_proﬁle) {
+            microbiome_proﬁle.updateAttributes(helper.assignForIntersectedKeys({
+                microbiome_sample_id: null,
+                taxon_id: null,
+                count: null
+
+            }, req.body)).then(function(microbiome_proﬁle) {
                 res.send(microbiome_proﬁle);
             }).catch(function(err) {
                 res.status(500).json(err)
