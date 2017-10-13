@@ -53,7 +53,7 @@ router.get('/individuals/example_csv', function(req, res) {
 
 // get for vue-table
 router.get('/individuals/vue_table', function(req, res) {
-    helper.vueTable(req, models.individual, ["name"]).then(
+    helper.vueTable(req, models.individual, ["name", "id"]).then(
         function(x) {
             res.json(x)
         }).catch(function(err) {

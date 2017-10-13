@@ -53,7 +53,7 @@ router.get('/microbiome_samples/example_csv', function(req, res) {
 
 // get for vue-table
 router.get('/microbiome_samples/vue_table', function(req, res) {
-    helper.vueTable(req, models.microbiome_sample, ["name", "material", "life_cycle_phas", "barcode_tag", "description"]).then(
+    helper.vueTable(req, models.microbiome_sample, ["name", "material", "life_cycle_phas", "barcode_tag", "description", "id"]).then(
         function(x) {
             res.json(x)
         }).catch(function(err) {

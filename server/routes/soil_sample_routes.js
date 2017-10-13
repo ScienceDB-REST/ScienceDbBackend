@@ -5,7 +5,7 @@
 // get all soil_samples
 router.get('/soil_samples', function(req, res) {
     models.
-    soil_sample.findAll(helper.searchPaginate(req, ["name"])).then(function(
+    soil_sample.findAll(helper.searchPaginate(req, ["name", "id"])).then(function(
         soil_samples) {
         res.json(soil_samples);
     }).catch(function(err) {
@@ -53,7 +53,7 @@ router.get('/soil_samples/example_csv', function(req, res) {
 
 // get for vue-table
 router.get('/soil_samples/vue_table', function(req, res) {
-    helper.vueTable(req, models.soil_sample, ["name"]).then(
+    helper.vueTable(req, models.soil_sample, ["name", "id"]).then(
         function(x) {
             res.json(x)
         }).catch(function(err) {

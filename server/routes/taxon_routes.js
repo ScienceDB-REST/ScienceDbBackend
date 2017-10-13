@@ -53,7 +53,7 @@ router.get('/taxons/example_csv', function(req, res) {
 
 // get for vue-table
 router.get('/taxons/vue_table', function(req, res) {
-    helper.vueTable(req, models.taxon, ["name", "taxonomic_level"]).then(
+    helper.vueTable(req, models.taxon, ["name", "taxonomic_level", "id"]).then(
         function(x) {
             res.json(x)
         }).catch(function(err) {

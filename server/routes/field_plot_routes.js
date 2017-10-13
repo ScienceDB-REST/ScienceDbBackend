@@ -53,7 +53,7 @@ router.get('/field_plots/example_csv', function(req, res) {
 
 // get for vue-table
 router.get('/field_plots/vue_table', function(req, res) {
-    helper.vueTable(req, models.field_plot, ["field_name", "location_code", "soil_treatment"]).then(
+    helper.vueTable(req, models.field_plot, ["field_name", "location_code", "soil_treatment", "id"]).then(
         function(x) {
             res.json(x)
         }).catch(function(err) {

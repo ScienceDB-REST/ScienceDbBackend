@@ -53,7 +53,7 @@ router.get('/pots/example_csv', function(req, res) {
 
 // get for vue-table
 router.get('/pots/vue_table', function(req, res) {
-    helper.vueTable(req, models.pot, ["pot", "greenhouse", "climate_chamber", "conditions"]).then(
+    helper.vueTable(req, models.pot, ["pot", "greenhouse", "climate_chamber", "conditions", "id"]).then(
         function(x) {
             res.json(x)
         }).catch(function(err) {
