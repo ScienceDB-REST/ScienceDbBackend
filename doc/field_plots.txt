@@ -1,0 +1,2 @@
+field_name	latitude	longitude	location_code	soil_treatment
+fn	lat	lon	loc	treat_koko
