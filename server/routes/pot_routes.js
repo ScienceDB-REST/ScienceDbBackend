@@ -68,7 +68,7 @@ router.post('/pots/upload_csv', function(req, res) {
     cols = req.body.cols
     helper.parseCsv(req.files.csv_file.data.toString(), delim, cols).then(
         function(data) {
-            models.marker.bulkCreate(
+            models.pot.bulkCreate(
                 data, {
                     validate: true
                 }).then(function(data) {

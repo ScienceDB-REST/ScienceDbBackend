@@ -69,7 +69,7 @@ router.post('/field_plots/upload_csv', function(req, res) {
     cols = req.body.cols
     helper.parseCsv(req.files.csv_file.data.toString(), delim, cols).then(
         function(data) {
-            models.marker.bulkCreate(
+            models.field_plot.bulkCreate(
                 data, {
                     validate: true
                 }).then(function(data) {

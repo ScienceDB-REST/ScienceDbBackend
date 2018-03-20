@@ -106,8 +106,8 @@ exports.modelCsvExample = function(model, discardAttrs) {
 }
 
 exports.parseCsv = function(csvStr, delim, cols) {
-    if (!delim) delim = ","
-    if (typeof cols === 'undefined') cols = true
+    if (!delim || delim === undefined) delim = ","
+    if (!cols || cols === undefined) cols = true
     return csv_parse(csvStr, {
       delimiter: delim,
       columns: cols

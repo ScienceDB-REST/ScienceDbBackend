@@ -67,7 +67,7 @@ router.post('/reference_sequences/upload_csv', function(req, res) {
     cols = req.body.cols
     helper.parseCsv(req.files.csv_file.data.toString(), delim, cols).then(
         function(data) {
-            models.marker.bulkCreate(
+            models.reference_sequence.bulkCreate(
                 data, {
                     validate: true
                 }).then(function(data) {

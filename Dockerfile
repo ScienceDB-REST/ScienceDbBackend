@@ -9,7 +9,8 @@ COPY ./package.json .
 RUN apk update && \
  apk add bash && \
  npm install sequelize-cli -g && \
- npm install --save .
+ npm install
+
 # If you are building your code for production
 # RUN npm install --only=production
 
