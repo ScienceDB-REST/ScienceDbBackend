@@ -5,7 +5,7 @@
 // get all microbiome_otus
 router.get('/microbiome_otus', function(req, res) {
     models.
-    microbiome_otu.findAll(helper.searchPaginate(req, ["otu_id", "sample_desc", "experiment", "kingdom"])).then(function(
+    microbiome_otu.findAll(helper.searchPaginate(req, ["id", "otu_id", "sample_desc", "experiment", "kingdom"])).then(function(
         microbiome_otus) {
         res.json(microbiome_otus);
     }).catch(function(err) {
@@ -38,7 +38,7 @@ router.get('/microbiome_otus/example_csv', function(req, res) {
 
 // get for vue-table
 router.get('/microbiome_otus/vue_table', function(req, res) {
-    helper.vueTable(req, models.microbiome_otu, ["otu_id", "sample_desc", "experiment", "kingdom"]).then(
+    helper.vueTable(req, models.microbiome_otu, ["id", "otu_id", "sample_desc", "experiment", "kingdom"]).then(
         function(x) {
             res.json(x)
         }).catch(function(err) {
@@ -50,16 +50,17 @@ router.get('/microbiome_otus/vue_table', function(req, res) {
 //
 // add new microbiome_otu
 router.post('/microbiome_otus', function(req, res) {
-    models.microbiome_otu.create({
-        reference_sequence_id: req.body.reference_sequence_id,
-        otu_id: req.body.otu_id,
-        sample_id: req.body.sample_id,
-        sample_desc: req.body.sample_desc,
-        count: req.body.count,
-        experiment: req.body.experiment,
-        version: req.body.version,
-        kingdom: req.body.kingdom
-    }).then(function(microbiome_otu) {
+    models.microbiome_otu.create(helper.assignForIntersectedKeys({
+        reference_sequence_id: null,
+        otu_id: null,
+        sample_id: null,
+        sample_desc: null,
+        count: null,
+        experiment: null,
+        version: null,
+        kingdom: null
+
+    }, req.body)).then(function(microbiome_otu) {
         res.json(microbiome_otu);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -106,16 +107,17 @@ router.put('/microbiome_otu/:id', function(req, res) {
         }
     }).then(function(microbiome_otu) {
         if (microbiome_otu) {
-            microbiome_otu.updateAttributes({
-                reference_sequence_id: req.body.reference_sequence_id,
-                otu_id: req.body.otu_id,
-                sample_id: req.body.sample_id,
-                sample_desc: req.body.sample_desc,
-                count: req.body.count,
-                experiment: req.body.experiment,
-                version: req.body.version,
-                kingdom: req.body.kingdom
-            }).then(function(microbiome_otu) {
+            microbiome_otu.updateAttributes(helper.assignForIntersectedKeys({
+                reference_sequence_id: null,
+                otu_id: null,
+                sample_id: null,
+                sample_desc: null,
+                count: null,
+                experiment: null,
+                version: null,
+                kingdom: null
+
+            }, req.body)).then(function(microbiome_otu) {
                 res.send(microbiome_otu);
             }).catch(function(err) {
                 res.status(500).json(err)

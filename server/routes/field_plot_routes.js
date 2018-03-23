@@ -5,7 +5,7 @@
 // get all field_plots
 router.get('/field_plots', function(req, res) {
     models.
-    field_plot.findAll(helper.searchPaginate(req, ["field_name", "location_code", "soil_treatment"])).then(function(
+    field_plot.findAll(helper.searchPaginate(req, ["id", "field_name", "location_code", "soil_treatment"])).then(function(
         field_plots) {
         res.json(field_plots);
     }).catch(function(err) {
@@ -38,7 +38,7 @@ router.get('/field_plots/example_csv', function(req, res) {
 
 // get for vue-table
 router.get('/field_plots/vue_table', function(req, res) {
-    helper.vueTable(req, models.field_plot, ["field_name", "location_code", "soil_treatment"]).then(
+    helper.vueTable(req, models.field_plot, ["id", "field_name", "location_code", "soil_treatment"]).then(
         function(x) {
             res.json(x)
         }).catch(function(err) {
@@ -50,13 +50,14 @@ router.get('/field_plots/vue_table', function(req, res) {
 //
 // add new field_plot
 router.post('/field_plots', function(req, res) {
-    models.field_plot.create({
-        field_name: req.body.field_name,
-        latitude: req.body.latitude,
-        longitude: req.body.longitude,
-        location_code: req.body.location_code,
-        soil_treatment: req.body.soil_treatment
-    }).then(function(field_plot) {
+    models.field_plot.create(helper.assignForIntersectedKeys({
+        field_name: null,
+        latitude: null,
+        longitude: null,
+        location_code: null,
+        soil_treatment: null
+
+    }, req.body)).then(function(field_plot) {
         res.json(field_plot);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -103,13 +104,14 @@ router.put('/field_plot/:id', function(req, res) {
         }
     }).then(function(field_plot) {
         if (field_plot) {
-            field_plot.updateAttributes({
-                field_name: req.body.field_name,
-                latitude: req.body.latitude,
-                longitude: req.body.longitude,
-                location_code: req.body.location_code,
-                soil_treatment: req.body.soil_treatment
-            }).then(function(field_plot) {
+            field_plot.updateAttributes(helper.assignForIntersectedKeys({
+                field_name: null,
+                latitude: null,
+                longitude: null,
+                location_code: null,
+                soil_treatment: null
+
+            }, req.body)).then(function(field_plot) {
                 res.send(field_plot);
             }).catch(function(err) {
                 res.status(500).json(err)

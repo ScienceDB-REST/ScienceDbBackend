@@ -5,7 +5,7 @@
 // get all samples
 router.get('/samples', function(req, res) {
     models.
-    sample.findAll(helper.searchPaginate(req, ["name", "material", "life_cycle_phase", "barcode_tag", "description"])).then(function(
+    sample.findAll(helper.searchPaginate(req, ["id", "name", "material", "life_cycle_phase", "barcode_tag", "description"])).then(function(
         samples) {
         res.json(samples);
     }).catch(function(err) {
@@ -38,7 +38,7 @@ router.get('/samples/example_csv', function(req, res) {
 
 // get for vue-table
 router.get('/samples/vue_table', function(req, res) {
-    helper.vueTable(req, models.sample, ["name", "material", "life_cycle_phase", "barcode_tag", "description"]).then(
+    helper.vueTable(req, models.sample, ["id", "name", "material", "life_cycle_phase", "barcode_tag", "description"]).then(
         function(x) {
             res.json(x)
         }).catch(function(err) {
@@ -50,18 +50,19 @@ router.get('/samples/vue_table', function(req, res) {
 //
 // add new sample
 router.post('/samples', function(req, res) {
-    models.sample.create({
-        name: req.body.name,
-        material: req.body.material,
-        life_cycle_phase: req.body.life_cycle_phase,
-        barcode_tag: req.body.barcode_tag,
-        description: req.body.description,
-        harvest_date: req.body.harvest_date,
-        individual_id: req.body.individual_id,
-        field_plot_id: req.body.field_plot_id,
-        pot_id: req.body.pot_id,
-        parent_id: req.body.parent_id
-    }).then(function(sample) {
+    models.sample.create(helper.assignForIntersectedKeys({
+        name: null,
+        material: null,
+        life_cycle_phase: null,
+        barcode_tag: null,
+        description: null,
+        harvest_date: null,
+        individual_id: null,
+        field_plot_id: null,
+        pot_id: null,
+        parent_id: null
+
+    }, req.body)).then(function(sample) {
         res.json(sample);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -108,18 +109,19 @@ router.put('/sample/:id', function(req, res) {
         }
     }).then(function(sample) {
         if (sample) {
-            sample.updateAttributes({
-                name: req.body.name,
-                material: req.body.material,
-                life_cycle_phase: req.body.life_cycle_phase,
-                barcode_tag: req.body.barcode_tag,
-                description: req.body.description,
-                harvest_date: req.body.harvest_date,
-                individual_id: req.body.individual_id,
-                field_plot_id: req.body.field_plot_id,
-                pot_id: req.body.pot_id,
-                parent_id: req.body.parent_id
-            }).then(function(sample) {
+            sample.updateAttributes(helper.assignForIntersectedKeys({
+                name: null,
+                material: null,
+                life_cycle_phase: null,
+                barcode_tag: null,
+                description: null,
+                harvest_date: null,
+                individual_id: null,
+                field_plot_id: null,
+                pot_id: null,
+                parent_id: null
+
+            }, req.body)).then(function(sample) {
                 res.send(sample);
             }).catch(function(err) {
                 res.status(500).json(err)

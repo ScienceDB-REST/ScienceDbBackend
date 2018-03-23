@@ -29,3 +29,11 @@ express_route_gen . --name microbiome_otu --attributes 'reference_sequence_id:in
 ./node_modules/.bin/sequelize model:create --name reference_sequence --attributes 'sequence:string, taxon_id:integer, microbiome_otu_id:integer'
 ./node_modules/.bin/sequelize db:migrate
 express_route_gen . --name reference_sequence --attributes 'sequence:string, taxon_id:integer, microbiome_otu_id:integer'
+
+./node_modules/.bin/sequelize model:create --name metabolite_measurement --attributes 'metabolite:string, amount:double, unit:string'
+./node_modules/.bin/sequelize db:migrate
+express_route_gen . --name metabolite_measurement --attributes 'metabolite:string, sample_id:integer, amount:double, unit:string, is_average:boolean'
+
+./node_modules/.bin/sequelize model:create --name sample_to_metabolite_measurement --attributes 'metabolite_measurement_id:integer, sample_id:integer'
+./node_modules/.bin/sequelize db:migrate
+express_route_gen .  --name sample_to_metabolite_measurement --attributes 'metabolite_measurement_id:integer, sample_id:integer'

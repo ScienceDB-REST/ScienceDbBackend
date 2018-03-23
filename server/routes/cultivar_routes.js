@@ -5,7 +5,7 @@
 // get all cultivars
 router.get('/cultivars', function(req, res) {
     models.
-    cultivar.findAll(helper.searchPaginate(req, ["description", "genotype"])).then(function(
+    cultivar.findAll(helper.searchPaginate(req, ["id", "description", "genotype"])).then(function(
         cultivars) {
         res.json(cultivars);
     }).catch(function(err) {
@@ -38,7 +38,7 @@ router.get('/cultivars/example_csv', function(req, res) {
 
 // get for vue-table
 router.get('/cultivars/vue_table', function(req, res) {
-    helper.vueTable(req, models.cultivar, ["description", "genotype"]).then(
+    helper.vueTable(req, models.cultivar, ["id", "description", "genotype"]).then(
         function(x) {
             res.json(x)
         }).catch(function(err) {
@@ -50,11 +50,12 @@ router.get('/cultivars/vue_table', function(req, res) {
 //
 // add new cultivar
 router.post('/cultivars', function(req, res) {
-    models.cultivar.create({
-        description: req.body.description,
-        genotype: req.body.genotype,
-        taxon_id: req.body.taxon_id
-    }).then(function(cultivar) {
+    models.cultivar.create(helper.assignForIntersectedKeys({
+        description: null,
+        genotype: null,
+        taxon_id: null
+
+    }, req.body)).then(function(cultivar) {
         res.json(cultivar);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -101,11 +102,12 @@ router.put('/cultivar/:id', function(req, res) {
         }
     }).then(function(cultivar) {
         if (cultivar) {
-            cultivar.updateAttributes({
-                description: req.body.description,
-                genotype: req.body.genotype,
-                taxon_id: req.body.taxon_id
-            }).then(function(cultivar) {
+            cultivar.updateAttributes(helper.assignForIntersectedKeys({
+                description: null,
+                genotype: null,
+                taxon_id: null
+
+            }, req.body)).then(function(cultivar) {
                 res.send(cultivar);
             }).catch(function(err) {
                 res.status(500).json(err)

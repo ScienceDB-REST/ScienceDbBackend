@@ -5,7 +5,7 @@
 // get all pots
 router.get('/pots', function(req, res) {
     models.
-    pot.findAll(helper.searchPaginate(req, ["pot", "greenhouse", "climate_chamber", "conditions"])).then(function(
+    pot.findAll(helper.searchPaginate(req, ["id", "pot", "greenhouse", "climate_chamber", "conditions"])).then(function(
         pots) {
         res.json(pots);
     }).catch(function(err) {
@@ -38,7 +38,7 @@ router.get('/pots/example_csv', function(req, res) {
 
 // get for vue-table
 router.get('/pots/vue_table', function(req, res) {
-    helper.vueTable(req, models.pot, ["pot", "greenhouse", "climate_chamber", "conditions"]).then(
+    helper.vueTable(req, models.pot, ["id", "pot", "greenhouse", "climate_chamber", "conditions"]).then(
         function(x) {
             res.json(x)
         }).catch(function(err) {
@@ -50,12 +50,13 @@ router.get('/pots/vue_table', function(req, res) {
 //
 // add new pot
 router.post('/pots', function(req, res) {
-    models.pot.create({
-        pot: req.body.pot,
-        greenhouse: req.body.greenhouse,
-        climate_chamber: req.body.climate_chamber,
-        conditions: req.body.conditions
-    }).then(function(pot) {
+    models.pot.create(helper.assignForIntersectedKeys({
+        pot: null,
+        greenhouse: null,
+        climate_chamber: null,
+        conditions: null
+
+    }, req.body)).then(function(pot) {
         res.json(pot);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -102,12 +103,13 @@ router.put('/pot/:id', function(req, res) {
         }
     }).then(function(pot) {
         if (pot) {
-            pot.updateAttributes({
-                pot: req.body.pot,
-                greenhouse: req.body.greenhouse,
-                climate_chamber: req.body.climate_chamber,
-                conditions: req.body.conditions
-            }).then(function(pot) {
+            pot.updateAttributes(helper.assignForIntersectedKeys({
+                pot: null,
+                greenhouse: null,
+                climate_chamber: null,
+                conditions: null
+
+            }, req.body)).then(function(pot) {
                 res.send(pot);
             }).catch(function(err) {
                 res.status(500).json(err)

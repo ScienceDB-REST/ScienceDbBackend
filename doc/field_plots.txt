@@ -1,2 +1,2 @@
-field_name	latitude	longitude	location_code	soil_treatment
-fn	lat	lon	loc	treat_koko
+"field_name","latitude","longitude","location_code","soil_treatment"
+"Ehrenfeld","234","432","Loc-Code","Severely bad ass treatment"

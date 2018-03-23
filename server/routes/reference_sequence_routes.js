@@ -5,7 +5,7 @@
 // get all reference_sequences
 router.get('/reference_sequences', function(req, res) {
     models.
-    reference_sequence.findAll(helper.searchPaginate(req, ["sequence"])).then(function(
+    reference_sequence.findAll(helper.searchPaginate(req, ["id", "sequence"])).then(function(
         reference_sequences) {
         res.json(reference_sequences);
     }).catch(function(err) {
@@ -38,7 +38,7 @@ router.get('/reference_sequences/example_csv', function(req, res) {
 
 // get for vue-table
 router.get('/reference_sequences/vue_table', function(req, res) {
-    helper.vueTable(req, models.reference_sequence, ["sequence"]).then(
+    helper.vueTable(req, models.reference_sequence, ["id", "sequence"]).then(
         function(x) {
             res.json(x)
         }).catch(function(err) {
@@ -50,11 +50,12 @@ router.get('/reference_sequences/vue_table', function(req, res) {
 //
 // add new reference_sequence
 router.post('/reference_sequences', function(req, res) {
-    models.reference_sequence.create({
-        sequence: req.body.sequence,
-        taxon_id: req.body.taxon_id,
-        microbiome_otu_id: req.body.microbiome_otu_id
-    }).then(function(reference_sequence) {
+    models.reference_sequence.create(helper.assignForIntersectedKeys({
+        sequence: null,
+        taxon_id: null,
+        microbiome_otu_id: null
+
+    }, req.body)).then(function(reference_sequence) {
         res.json(reference_sequence);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -101,11 +102,12 @@ router.put('/reference_sequence/:id', function(req, res) {
         }
     }).then(function(reference_sequence) {
         if (reference_sequence) {
-            reference_sequence.updateAttributes({
-                sequence: req.body.sequence,
-                taxon_id: req.body.taxon_id,
-                microbiome_otu_id: req.body.microbiome_otu_id
-            }).then(function(reference_sequence) {
+            reference_sequence.updateAttributes(helper.assignForIntersectedKeys({
+                sequence: null,
+                taxon_id: null,
+                microbiome_otu_id: null
+
+            }, req.body)).then(function(reference_sequence) {
                 res.send(reference_sequence);
             }).catch(function(err) {
                 res.status(500).json(err)
