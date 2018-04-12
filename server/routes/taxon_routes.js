@@ -56,6 +56,12 @@ router.post('/taxons', function(req, res) {
         parent_id: null
 
     }, req.body)).then(function(taxon) {
+        return helper.setAssociations(
+            models.taxon,
+            taxon,
+            req.body
+        )
+    }).then(function(taxon) {
         res.json(taxon);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -99,7 +105,10 @@ router.put('/taxon/:id', function(req, res) {
     models.taxon.find({
         where: {
             id: req.params.id
-        }
+        },
+        include: [{
+            all: true
+        }]
     }).then(function(taxon) {
         if (taxon) {
             taxon.updateAttributes(helper.assignForIntersectedKeys({
@@ -108,6 +117,12 @@ router.put('/taxon/:id', function(req, res) {
                 parent_id: null
 
             }, req.body)).then(function(taxon) {
+                return helper.setAssociations(
+                    models.taxon,
+                    taxon,
+                    req.body
+                )
+            }).then(function(taxon) {
                 res.send(taxon);
             }).catch(function(err) {
                 res.status(500).json(err)

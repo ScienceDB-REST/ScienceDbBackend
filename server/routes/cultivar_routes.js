@@ -56,6 +56,12 @@ router.post('/cultivars', function(req, res) {
         taxon_id: null
 
     }, req.body)).then(function(cultivar) {
+        return helper.setAssociations(
+            models.cultivar,
+            cultivar,
+            req.body
+        )
+    }).then(function(cultivar) {
         res.json(cultivar);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -99,7 +105,10 @@ router.put('/cultivar/:id', function(req, res) {
     models.cultivar.find({
         where: {
             id: req.params.id
-        }
+        },
+        include: [{
+            all: true
+        }]
     }).then(function(cultivar) {
         if (cultivar) {
             cultivar.updateAttributes(helper.assignForIntersectedKeys({
@@ -108,6 +117,12 @@ router.put('/cultivar/:id', function(req, res) {
                 taxon_id: null
 
             }, req.body)).then(function(cultivar) {
+                return helper.setAssociations(
+                    models.cultivar,
+                    cultivar,
+                    req.body
+                )
+            }).then(function(cultivar) {
                 res.send(cultivar);
             }).catch(function(err) {
                 res.status(500).json(err)

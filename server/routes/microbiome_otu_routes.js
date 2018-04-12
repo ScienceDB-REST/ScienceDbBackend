@@ -61,6 +61,12 @@ router.post('/microbiome_otus', function(req, res) {
         kingdom: null
 
     }, req.body)).then(function(microbiome_otu) {
+        return helper.setAssociations(
+            models.microbiome_otu,
+            microbiome_otu,
+            req.body
+        )
+    }).then(function(microbiome_otu) {
         res.json(microbiome_otu);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -104,7 +110,10 @@ router.put('/microbiome_otu/:id', function(req, res) {
     models.microbiome_otu.find({
         where: {
             id: req.params.id
-        }
+        },
+        include: [{
+            all: true
+        }]
     }).then(function(microbiome_otu) {
         if (microbiome_otu) {
             microbiome_otu.updateAttributes(helper.assignForIntersectedKeys({
@@ -118,6 +127,12 @@ router.put('/microbiome_otu/:id', function(req, res) {
                 kingdom: null
 
             }, req.body)).then(function(microbiome_otu) {
+                return helper.setAssociations(
+                    models.microbiome_otu,
+                    microbiome_otu,
+                    req.body
+                )
+            }).then(function(microbiome_otu) {
                 res.send(microbiome_otu);
             }).catch(function(err) {
                 res.status(500).json(err)

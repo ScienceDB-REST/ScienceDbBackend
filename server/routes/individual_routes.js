@@ -59,6 +59,12 @@ router.post('/individuals', function(req, res) {
         pot_id: null
 
     }, req.body)).then(function(individual) {
+        return helper.setAssociations(
+            models.individual,
+            individual,
+            req.body
+        )
+    }).then(function(individual) {
         res.json(individual);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -102,7 +108,10 @@ router.put('/individual/:id', function(req, res) {
     models.individual.find({
         where: {
             id: req.params.id
-        }
+        },
+        include: [{
+            all: true
+        }]
     }).then(function(individual) {
         if (individual) {
             individual.updateAttributes(helper.assignForIntersectedKeys({
@@ -114,6 +123,12 @@ router.put('/individual/:id', function(req, res) {
                 pot_id: null
 
             }, req.body)).then(function(individual) {
+                return helper.setAssociations(
+                    models.individual,
+                    individual,
+                    req.body
+                )
+            }).then(function(individual) {
                 res.send(individual);
             }).catch(function(err) {
                 res.status(500).json(err)

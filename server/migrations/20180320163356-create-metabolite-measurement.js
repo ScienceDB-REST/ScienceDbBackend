@@ -17,6 +17,9 @@ module.exports = {
       unit: {
         type: Sequelize.STRING
       },
+      is_average: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -41,7 +41,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(function(req, res, next) {
 
   // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3333');
+  res.setHeader('Access-Control-Allow-Origin', 'http://213.136.88.239:3333');
 
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods',
@@ -98,22 +98,18 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
+    console.log("ERROR: " + err);
     res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
+    res.json(err);
   });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+  console.log("ERROR: " + err);
   res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  res.json(err);
 });
 
 

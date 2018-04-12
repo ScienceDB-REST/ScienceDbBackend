@@ -63,6 +63,12 @@ router.post('/samples', function(req, res) {
         parent_id: null
 
     }, req.body)).then(function(sample) {
+        return helper.setAssociations(
+            models.sample,
+            sample,
+            req.body
+        )
+    }).then(function(sample) {
         res.json(sample);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -106,7 +112,10 @@ router.put('/sample/:id', function(req, res) {
     models.sample.find({
         where: {
             id: req.params.id
-        }
+        },
+        include: [{
+            all: true
+        }]
     }).then(function(sample) {
         if (sample) {
             sample.updateAttributes(helper.assignForIntersectedKeys({
@@ -122,6 +131,12 @@ router.put('/sample/:id', function(req, res) {
                 parent_id: null
 
             }, req.body)).then(function(sample) {
+                return helper.setAssociations(
+                    models.sample,
+                    sample,
+                    req.body
+                )
+            }).then(function(sample) {
                 res.send(sample);
             }).catch(function(err) {
                 res.status(500).json(err)

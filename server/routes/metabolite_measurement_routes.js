@@ -58,6 +58,12 @@ router.post('/metabolite_measurements', function(req, res) {
         is_average: null
 
     }, req.body)).then(function(metabolite_measurement) {
+        return helper.setAssociations(
+            models.metabolite_measurement,
+            metabolite_measurement,
+            req.body
+        )
+    }).then(function(metabolite_measurement) {
         res.json(metabolite_measurement);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -101,7 +107,10 @@ router.put('/metabolite_measurement/:id', function(req, res) {
     models.metabolite_measurement.find({
         where: {
             id: req.params.id
-        }
+        },
+        include: [{
+            all: true
+        }]
     }).then(function(metabolite_measurement) {
         if (metabolite_measurement) {
             metabolite_measurement.updateAttributes(helper.assignForIntersectedKeys({
@@ -112,6 +121,12 @@ router.put('/metabolite_measurement/:id', function(req, res) {
                 is_average: null
 
             }, req.body)).then(function(metabolite_measurement) {
+                return helper.setAssociations(
+                    models.metabolite_measurement,
+                    metabolite_measurement,
+                    req.body
+                )
+            }).then(function(metabolite_measurement) {
                 res.send(metabolite_measurement);
             }).catch(function(err) {
                 res.status(500).json(err)

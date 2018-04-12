@@ -56,6 +56,12 @@ router.post('/reference_sequences', function(req, res) {
         microbiome_otu_id: null
 
     }, req.body)).then(function(reference_sequence) {
+        return helper.setAssociations(
+            models.reference_sequence,
+            reference_sequence,
+            req.body
+        )
+    }).then(function(reference_sequence) {
         res.json(reference_sequence);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -99,7 +105,10 @@ router.put('/reference_sequence/:id', function(req, res) {
     models.reference_sequence.find({
         where: {
             id: req.params.id
-        }
+        },
+        include: [{
+            all: true
+        }]
     }).then(function(reference_sequence) {
         if (reference_sequence) {
             reference_sequence.updateAttributes(helper.assignForIntersectedKeys({
@@ -108,6 +117,12 @@ router.put('/reference_sequence/:id', function(req, res) {
                 microbiome_otu_id: null
 
             }, req.body)).then(function(reference_sequence) {
+                return helper.setAssociations(
+                    models.reference_sequence,
+                    reference_sequence,
+                    req.body
+                )
+            }).then(function(reference_sequence) {
                 res.send(reference_sequence);
             }).catch(function(err) {
                 res.status(500).json(err)

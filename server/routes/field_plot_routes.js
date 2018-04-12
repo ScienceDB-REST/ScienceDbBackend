@@ -58,6 +58,12 @@ router.post('/field_plots', function(req, res) {
         soil_treatment: null
 
     }, req.body)).then(function(field_plot) {
+        return helper.setAssociations(
+            models.field_plot,
+            field_plot,
+            req.body
+        )
+    }).then(function(field_plot) {
         res.json(field_plot);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -101,7 +107,10 @@ router.put('/field_plot/:id', function(req, res) {
     models.field_plot.find({
         where: {
             id: req.params.id
-        }
+        },
+        include: [{
+            all: true
+        }]
     }).then(function(field_plot) {
         if (field_plot) {
             field_plot.updateAttributes(helper.assignForIntersectedKeys({
@@ -112,6 +121,12 @@ router.put('/field_plot/:id', function(req, res) {
                 soil_treatment: null
 
             }, req.body)).then(function(field_plot) {
+                return helper.setAssociations(
+                    models.field_plot,
+                    field_plot,
+                    req.body
+                )
+            }).then(function(field_plot) {
                 res.send(field_plot);
             }).catch(function(err) {
                 res.status(500).json(err)

@@ -55,6 +55,12 @@ router.post('/sample_to_metabolite_measurements', function(req, res) {
         sample_id: null
 
     }, req.body)).then(function(sample_to_metabolite_measurement) {
+        return helper.setAssociations(
+            models.sample_to_metabolite_measurement,
+            sample_to_metabolite_measurement,
+            req.body
+        )
+    }).then(function(sample_to_metabolite_measurement) {
         res.json(sample_to_metabolite_measurement);
     }).catch(function(err) {
         res.status(500).json(err)
@@ -98,7 +104,10 @@ router.put('/sample_to_metabolite_measurement/:id', function(req, res) {
     models.sample_to_metabolite_measurement.find({
         where: {
             id: req.params.id
-        }
+        },
+        include: [{
+            all: true
+        }]
     }).then(function(sample_to_metabolite_measurement) {
         if (sample_to_metabolite_measurement) {
             sample_to_metabolite_measurement.updateAttributes(helper.assignForIntersectedKeys({
@@ -106,6 +115,12 @@ router.put('/sample_to_metabolite_measurement/:id', function(req, res) {
                 sample_id: null
 
             }, req.body)).then(function(sample_to_metabolite_measurement) {
+                return helper.setAssociations(
+                    models.sample_to_metabolite_measurement,
+                    sample_to_metabolite_measurement,
+                    req.body
+                )
+            }).then(function(sample_to_metabolite_measurement) {
                 res.send(sample_to_metabolite_measurement);
             }).catch(function(err) {
                 res.status(500).json(err)
