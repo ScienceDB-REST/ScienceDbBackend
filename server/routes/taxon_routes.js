@@ -32,7 +32,7 @@ router.get('/taxon/:id', acl.middleware(1),
     });
 
 // get example CSV for subsequent bulk create
-router.get('/taxons/example_csv', acl.middleware(1),
+router.get('/taxons/example_csv', //acl.middleware(1),
     function(req, res) {
         helper.modelCsvExample(models.taxon).then(function(modelCsvArr) {
             res.csv(modelCsvArr)
@@ -86,6 +86,7 @@ router.post('/taxons/upload_csv', acl.middleware(1),
                     }).then(function(data) {
                     res.json(data)
                 }).catch(function(err) {
+                    console.log(JSON.stringify(err));
                     res.status(500).json(err)
                 })
             })

@@ -2,7 +2,6 @@
 // - Some are _not_ defined as local variables in order to enable required
 // files to use these imports:
 express = require('express');
-models = require('../models/index');
 router = express.Router();
 helper = require(__dirname + '/helper.js');
 tmp = require('tmp');
@@ -15,9 +14,7 @@ var glob = require('glob'),
 
 // Base Route:
 router.get('/', function(req, res, next) {
-    res.render('index', {
-        title: 'Express'
-    });
+    res.json('Express is responding to route "/".');
 });
 
 
