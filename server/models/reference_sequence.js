@@ -1,9 +1,25 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var reference_sequence = sequelize.define('reference_sequence', {
-    sequence: DataTypes.STRING,
-    taxon_id: DataTypes.INTEGER,
-    microbiome_otu_id: DataTypes.INTEGER
+    sequence: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    taxon_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true
+      }
+    },
+    microbiome_otu_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true
+      }
+    }
   }, {
     classMethods: {
       associate: function(models) {

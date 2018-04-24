@@ -1,5 +1,7 @@
 'use strict';
 
+const passportLocalSequelize = require('passport-local-sequelize')
+
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define('User', {
     id: {
@@ -45,6 +47,12 @@ module.exports = function(sequelize, DataTypes) {
         })
       }
     }
+  });
+  // Make User available for authorization through passport and acl:
+  passportLocalSequelize.attachToUser(User, {
+    usernameField: 'email',
+    hashField: 'hash',
+    saltField: 'salt'
   });
   return User;
 };

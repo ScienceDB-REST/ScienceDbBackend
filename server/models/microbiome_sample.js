@@ -7,15 +7,39 @@ module.exports = function(sequelize, DataTypes) {
     barcode_tag: DataTypes.STRING,
     description: DataTypes.STRING,
     harvest_date: DataTypes.DATE,
-    individual_id: DataTypes.INTEGER,
-    field_plot_id: DataTypes.INTEGER,
-    pot_id: DataTypes.INTEGER
+    individual_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true
+      }
+    },
+    field_plot_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true
+      }
+    },
+    pot_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true
+      }
+    }
   }, {
     classMethods: {
       associate: function(models) {
-        microbiome_sample.belongsTo(models.individual, {foreignKey: 'individual_id', targetKey: 'id'});
-        microbiome_sample.belongsTo(models.field_plot, {foreignKey: 'field_plot_id', targetKey: 'id'});
-        microbiome_sample.belongsTo(models.pot, {foreignKey: 'pot_id', targetKey: 'id'});
+        microbiome_sample.belongsTo(models.individual, {
+          foreignKey: 'individual_id',
+          targetKey: 'id'
+        });
+        microbiome_sample.belongsTo(models.field_plot, {
+          foreignKey: 'field_plot_id',
+          targetKey: 'id'
+        });
+        microbiome_sample.belongsTo(models.pot, {
+          foreignKey: 'pot_id',
+          targetKey: 'id'
+        });
       }
     }
   });

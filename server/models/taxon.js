@@ -9,17 +9,32 @@ module.exports = function(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
     taxonomic_level: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
-    parent_id: DataTypes.INTEGER
+    parent_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true
+      }
+    }
   }, {
     classMethods: {
       associate: function(models) {
-        taxon.belongsTo(models.taxon, {foreignKey: 'parent_id', targetKey: 'id', as: 'parent'})
+        taxon.belongsTo(models.taxon, {
+          foreignKey: 'parent_id',
+          targetKey: 'id',
+          as: 'parent'
+        })
       }
     }
   });

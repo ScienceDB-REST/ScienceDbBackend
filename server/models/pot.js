@@ -1,10 +1,34 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var pot = sequelize.define('pot', {
-    pot: DataTypes.STRING,
-    greenhouse: DataTypes.STRING,
-    climate_chamber: DataTypes.STRING,
-    conditions: DataTypes.STRING
+    pot: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    greenhouse: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    climate_chamber: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    conditions: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    }
   }, {
     classMethods: {
       associate: function(models) {

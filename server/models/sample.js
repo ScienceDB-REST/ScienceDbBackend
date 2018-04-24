@@ -1,16 +1,66 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var sample = sequelize.define('sample', {
-    name: DataTypes.STRING,
-    material: DataTypes.STRING,
-    life_cycle_phase: DataTypes.STRING,
-    barcode_tag: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    material: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    life_cycle_phase: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    barcode_tag: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
     description: DataTypes.STRING,
-    harvest_date: DataTypes.DATE,
-    individual_id: DataTypes.INTEGER,
-    field_plot_id: DataTypes.INTEGER,
-    pot_id: DataTypes.INTEGER,
-    parent_id: DataTypes.INTEGER
+    harvest_date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        isDate: true
+      }
+    },
+    individual_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true
+      }
+    },
+    field_plot_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true
+      }
+    },
+    pot_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true
+      }
+    },
+    parent_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true
+      }
+    }
   }, {
     classMethods: {
       associate: function(models) {

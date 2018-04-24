@@ -1,10 +1,36 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var metabolite_measurement = sequelize.define('metabolite_measurement', {
-    metabolite: DataTypes.STRING,
-    amount: DataTypes.DOUBLE,
-    unit: DataTypes.STRING,
-    is_average: DataTypes.BOOLEAN
+    metabolite: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    amount: {
+      type: DataTypes.DOUBLE,
+      allowNull: false,
+      validate: {
+        isNumeric: true,
+        min: 0,
+      }
+    },
+    unit: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+      }
+    },
+    is_average: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      validate: {
+        isIn: [
+          [true, false]
+        ],
+      }
+    }
   }, {
     classMethods: {
       associate: function(models) {
