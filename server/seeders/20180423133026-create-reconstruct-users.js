@@ -9,6 +9,11 @@ const reconstructUsers = [{
     password: 'admin'
   },
   {
+    email: 'nina.gerlach@uni-koeln.de',
+    name: 'Nina Gerlach',
+    password: 'Nina01!Gerlach10'
+  },
+  {
     email: 'm.bucher@uni-koeln.de',
     name: 'Marcel Bucher',
     password: 'Marcel01!Bucher10'
