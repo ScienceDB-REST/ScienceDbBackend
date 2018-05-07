@@ -1,9 +1,0 @@
-node_modules/
-.DS_Store
-npm-debug.log
-blog.md
-*.csv
-kodiaq_development_dump_*.sql
-cookies.tmp
-.idea
-.vscode-upload.json

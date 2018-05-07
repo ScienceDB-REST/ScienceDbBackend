@@ -9,10 +9,10 @@ const operatorsAliases = {
   $in: Op.in
 };
 
-const Conn = new Sequelize(
-  'postgres',
-  'postgres',
-  'postgres',
+sequelize = new Sequelize(
+  'test_code_gen',
+  'test_code_gen',
+  'test_code_gen',
   {
     dialect: 'postgres',
     host: '127.0.0.1'
@@ -20,4 +20,4 @@ const Conn = new Sequelize(
   {operatorsAliases}
 );
 
-module.exports.connection = Conn;
+module.exports = sequelize;
