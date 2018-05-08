@@ -1,0 +1,14 @@
+{
+  "model" : "Plant",
+  "attributes" : {
+    "experimentDbId": "String",
+    "experimentURI": "String",
+    "experimentId": "String",
+    "experimentName": "String",
+    "experimentObjective": "String",
+    "experimentType": "String",
+    "experimentLocation": "String",
+    "experimentProject": "String",
+    "experimentPlateform": "String"
+  }
+}
