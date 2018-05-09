@@ -1,28 +1,47 @@
 module.exports = `
   type Plant  {
-    experimentDbId: String  
-    experimentURI: String  
-    experimentId: String  
-    experimentName: String  
-    experimentObjective: String  
-    experimentType: String  
-    experimentLocation: String  
-    experimentProject: String  
-    experimentPlateform: String  
-  
+    plateform: String
+    technicalPlateau: String
+    experimentAlias: String
+    species: String
+    experiment: String
+    study: String
+    studyAlias: String
+    plant: String
+    plantAlias: String
+    genotype: String
+    genotypeAlias: String
+    plantPatternAlias: String
+    seedLot: String
+    scenario: String
+    position: String
+    repetition: String
+    pot: String
+    aliasPot: String
+    location: String
+
   }
 
   enum PlantField {
-    id 
-    experimentDbId  
-    experimentURI  
-    experimentId  
-    experimentName  
-    experimentObjective  
-    experimentType  
-    experimentLocation  
-    experimentProject  
-    experimentPlateform  
+    plateform
+    technicalPlateau
+    experimentAlias
+    species
+    experiment
+    study
+    studyAlias
+    plant
+    plantAlias
+    genotype
+    genotypeAlias
+    plantPatternAlias
+    seedLot
+    scenario
+    position
+    repetition
+    pot
+    aliasPot
+    location
   }
 
   input searchPlantInput {
@@ -33,16 +52,7 @@ module.exports = `
   }
 
   type Query {
-    plants: [Plant]
-    searchPlant(input: searchPlantInput): [Plant]
-    readOnePlant(id: ID): Plant
+    plants(experimentURI: String): [Plant]
+    readOnePlant(experimentURI: String, plantURI: String): Plant
   }
-
-  type Mutation {
-    addPlant( experimentDbId: String, experimentURI: String, experimentId: String, experimentName: String, experimentObjective: String, experimentType: String, experimentLocation: String, experimentProject: String, experimentPlateform: String ): Plant
-    deletePlant(id: ID!): String!
-    updatePlant(id: ID!, experimentDbId: String, experimentURI: String, experimentId: String, experimentName: String, experimentObjective: String, experimentType: String, experimentLocation: String, experimentProject: String, experimentPlateform: String): Plant!
-    bulkAddPlantXlsx: [Plant]
-    bulkAddPlantCsv: [Plant]
-}
 `;
