@@ -22,13 +22,6 @@ module.exports = function(sequelize, DataTypes) {
         notEmpty: true
       }
     },
-    barcode_tag: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
     description: DataTypes.STRING,
     harvest_date: {
       type: DataTypes.DATE,
