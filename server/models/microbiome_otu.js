@@ -1,12 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var microbiome_otu = sequelize.define('microbiome_otu', {
-    reference_sequence_id: {
-      type: DataTypes.INTEGER,
-      validate: {
-        isNumeric: true
-      }
-    },
     otu_id: {
       type: DataTypes.INTEGER,
       validate: {
@@ -55,11 +49,40 @@ module.exports = function(sequelize, DataTypes) {
       validate: {
         notEmpty: true
       }
+    },
+    taxon_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true
+      }
+    },
+    parent_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: true
+      }
+    },
+    reference_sequence: {
+      type: DataTypes.STRING
     }
   }, {
     classMethods: {
       associate: function(models) {
-        // associations can be defined here
+        microbiome_otu.belongsTo(models.taxon, {
+          foreignKey: 'taxon_id',
+          targetKey: 'id',
+          as: 'taxon'
+        })
+        microbiome_otu.belongsTo(models.microbiome_otu, {
+          foreignKey: 'parent_id',
+          targetKey: 'id',
+          as: 'parent'
+        })
+        microbiome_otu.belongsTo(models.sample, {
+          foreignKey: 'sample_id',
+          targetKey: 'id',
+          as: 'sample'
+        })
       }
     }
   });
