@@ -17,9 +17,6 @@ module.exports = {
       life_cycle_phase: {
         type: Sequelize.STRING
       },
-      barcode_tag: {
-        type: Sequelize.STRING
-      },
       description: {
         type: Sequelize.STRING
       },
@@ -37,6 +34,15 @@ module.exports = {
       },
       parent_id: {
         type: Sequelize.INTEGER
+      },
+      barcode_number: {
+        type: Sequelize.INTEGER
+      },
+      library: {
+        type: Sequelize.STRING
+      },
+      barcode_sequence: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

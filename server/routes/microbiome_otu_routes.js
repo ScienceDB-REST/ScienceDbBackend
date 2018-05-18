@@ -6,7 +6,7 @@
 router.get('/microbiome_otus', acl.middleware(1),
     function(req, res) {
         models.
-        microbiome_otu.findAll(helper.searchPaginate(req, ["id", "otu_id", "sample_desc", "experiment", "kingdom"])).then(function(
+        microbiome_otu.findAll(helper.searchPaginate(req, ["id", "otu_id", "sample_desc", "experiment", "kingdom", "reference_sequence"])).then(function(
             microbiome_otus) {
             res.json(microbiome_otus);
         }).catch(function(err) {
@@ -42,7 +42,7 @@ router.get('/microbiome_otus/example_csv', acl.middleware(1),
 // get for vue-table
 router.get('/microbiome_otus/vue_table', acl.middleware(1),
     function(req, res) {
-        helper.vueTable(req, models.microbiome_otu, ["id", "otu_id", "sample_desc", "experiment", "kingdom"]).then(
+        helper.vueTable(req, models.microbiome_otu, ["id", "otu_id", "sample_desc", "experiment", "kingdom", "reference_sequence"]).then(
             function(x) {
                 res.json(x)
             }).catch(function(err) {
@@ -56,14 +56,18 @@ router.get('/microbiome_otus/vue_table', acl.middleware(1),
 router.post('/microbiome_otus', acl.middleware(1),
     function(req, res) {
         models.microbiome_otu.create(helper.assignForIntersectedKeys({
-            reference_sequence_id: null,
             otu_id: null,
             sample_id: null,
             sample_desc: null,
             count: null,
             experiment: null,
             version: null,
-            kingdom: null
+            kingdom: null,
+            createdAt: null,
+            updatedAt: null,
+            taxon_id: null,
+            reference_sequence: null,
+            parent_id: null
 
         }, req.body)).then(function(microbiome_otu) {
             return helper.setAssociations(
@@ -125,14 +129,18 @@ router.put('/microbiome_otu/:id', acl.middleware(1),
         }).then(function(microbiome_otu) {
             if (microbiome_otu) {
                 microbiome_otu.updateAttributes(helper.assignForIntersectedKeys({
-                    reference_sequence_id: null,
                     otu_id: null,
                     sample_id: null,
                     sample_desc: null,
                     count: null,
                     experiment: null,
                     version: null,
-                    kingdom: null
+                    kingdom: null,
+                    createdAt: null,
+                    updatedAt: null,
+                    taxon_id: null,
+                    reference_sequence: null,
+                    parent_id: null
 
                 }, req.body)).then(function(microbiome_otu) {
                     return helper.setAssociations(

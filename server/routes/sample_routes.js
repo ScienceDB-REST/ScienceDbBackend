@@ -6,7 +6,7 @@
 router.get('/samples', acl.middleware(1),
     function(req, res) {
         models.
-        sample.findAll(helper.searchPaginate(req, ["id", "name", "material", "life_cycle_phase", "barcode_tag", "description"])).then(function(
+        sample.findAll(helper.searchPaginate(req, ["id", "name", "material", "life_cycle_phase", "description", "library", "barcode_sequence"])).then(function(
             samples) {
             res.json(samples);
         }).catch(function(err) {
@@ -42,7 +42,7 @@ router.get('/samples/example_csv', acl.middleware(1),
 // get for vue-table
 router.get('/samples/vue_table', acl.middleware(1),
     function(req, res) {
-        helper.vueTable(req, models.sample, ["id", "name", "material", "life_cycle_phase", "barcode_tag", "description"]).then(
+        helper.vueTable(req, models.sample, ["id", "name", "material", "life_cycle_phase", "description", "library", "barcode_sequence"]).then(
             function(x) {
                 res.json(x)
             }).catch(function(err) {
@@ -59,13 +59,15 @@ router.post('/samples', acl.middleware(1),
             name: null,
             material: null,
             life_cycle_phase: null,
-            barcode_tag: null,
             description: null,
             harvest_date: null,
             individual_id: null,
             field_plot_id: null,
             pot_id: null,
-            parent_id: null
+            parent_id: null,
+            library: null,
+            barcode_number: null,
+            barcode_sequence: null
 
         }, req.body)).then(function(sample) {
             return helper.setAssociations(
@@ -130,13 +132,15 @@ router.put('/sample/:id', acl.middleware(1),
                     name: null,
                     material: null,
                     life_cycle_phase: null,
-                    barcode_tag: null,
                     description: null,
                     harvest_date: null,
                     individual_id: null,
                     field_plot_id: null,
                     pot_id: null,
-                    parent_id: null
+                    parent_id: null,
+                    library: null,
+                    barcode_number: null,
+                    barcode_sequence: null
 
                 }, req.body)).then(function(sample) {
                     return helper.setAssociations(

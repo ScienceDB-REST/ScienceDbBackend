@@ -64,7 +64,26 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        // associations can be defined here
+        sample.belongsTo(models.sample, {
+          foreignKey: 'parent_id',
+          targetKey: 'id',
+          as: 'parent'
+        })
+        sample.belongsTo(models.pot, {
+          foreignKey: 'pot_id',
+          targetKey: 'id',
+          as: 'pot'
+        })
+        sample.belongsTo(models.field_plot, {
+          foreignKey: 'field_plot_id',
+          targetKey: 'id',
+          as: 'field_plot'
+        })
+        sample.belongsTo(models.individual, {
+          foreignKey: 'individual_id',
+          targetKey: 'id',
+          as: 'individual'
+        })
       }
     }
   });

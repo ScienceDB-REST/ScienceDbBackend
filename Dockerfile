@@ -1,4 +1,4 @@
-FROM node:9.2.0-alpine
+FROM node:9.11.1
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -6,9 +6,8 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY ./package.json .
 
-RUN apk update && \
- apk add bash && \
- npm install sequelize-cli -g && \
+RUN apt-get update && \
+ apt-get install -y bash && \
  npm install
 
 # If you are building your code for production
