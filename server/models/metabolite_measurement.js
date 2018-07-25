@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DOUBLE,
       allowNull: false,
       validate: {
-        isNumeric: true,
+        isDecimal: true,
         min: 0,
       }
     },
@@ -25,11 +25,7 @@ module.exports = function(sequelize, DataTypes) {
     is_average: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      validate: {
-        isIn: [
-          [true, false]
-        ],
-      }
+      defaultValue: false
     }
   }, {
     classMethods: {
