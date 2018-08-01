@@ -1,17 +1,17 @@
 'use strict';
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('sample_to_metabolite_measurements', {
+    return queryInterface.createTable('sample_to_sample_measurements', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      metabolite_measurement_id: {
+      sample_measurement_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'metabolite_measurements',
+          model: 'sample_measurements',
           key: 'id'
         },
         allowNull: false
@@ -35,6 +35,6 @@ module.exports = {
     });
   },
   down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('sample_to_metabolite_measurements');
+    return queryInterface.dropTable('sample_to_sample_measurements');
   }
 };

@@ -46,24 +46,24 @@ module.exports = {
     //      onUpdate: 'cascade'
     //    });
     //
-    //    queryInterface.addConstraint('sample_to_metabolite_measurements', [
-    //      'metabolite_measurement_id'
+    //    queryInterface.addConstraint('sample_to_sample_measurements', [
+    //      'sample_measurement_id'
     //    ], {
     //      type: 'foreign key',
-    //      name: 'sample_to_metabolite_measurements_metabolite_measurement_id_fk',
+    //      name: 'sample_to_sample_measurements_sample_measurement_id_fk',
     //      references: {
-    //        table: 'metabolite_measurements',
+    //        table: 'sample_measurements',
     //        field: 'id'
     //      },
     //      onDelete: 'cascade',
     //      onUpdate: 'cascade'
     //    });
     //
-    //    queryInterface.addConstraint('sample_to_metabolite_measurements', [
+    //    queryInterface.addConstraint('sample_to_sample_measurements', [
     //      'sample_id'
     //    ], {
     //      type: 'foreign key',
-    //      name: 'sample_to_metabolite_measurements_sample_id_fk',
+    //      name: 'sample_to_sample_measurements_sample_id_fk',
     //      references: {
     //        table: 'samples',
     //        field: 'id'
@@ -179,10 +179,10 @@ module.exports = {
     //    queryInterface.removeConstraint('individuals',
     //      'individuals_field_plot_id_fk');
     //    queryInterface.removeConstraint('individuals', 'individuals_pot_id_fk');
-    //    queryInterface.removeConstraint('sample_to_metabolite_measurements',
-    //      'sample_to_metabolite_measurements_metabolite_measurement_id_fk');
-    //    queryInterface.removeConstraint('sample_to_metabolite_measurements',
-    //      'sample_to_metabolite_measurements_sample_id_fk');
+    //    queryInterface.removeConstraint('sample_to_sample_measurements',
+    //      'sample_to_sample_measurements_sample_measurement_id_fk');
+    //    queryInterface.removeConstraint('sample_to_sample_measurements',
+    //      'sample_to_sample_measurements_sample_id_fk');
     //    queryInterface.removeConstraint('microbiome_otus',
     //      'microbiome_otus_sample_id_fk');
     //    queryInterface.removeConstraint('microbiome_otus',
