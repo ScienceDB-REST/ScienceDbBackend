@@ -8,11 +8,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      metabolite: {
+      variable: {
         type: Sequelize.STRING
       },
-      amount: {
-        type: Sequelize.DOUBLE
+      value: {
+        type: Sequelize.NUMERIC
       },
       unit: {
         type: Sequelize.STRING
