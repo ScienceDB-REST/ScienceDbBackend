@@ -2,17 +2,15 @@ module.exports = {
   aclRules: [{
     roles: 'administrator',
     allows: [{
-      resources: ['/cultivars', '/cultivar', '/field_plots',
-        '/field_plot', '/individuals', '/metabolite_measurements',
-        '/metabolite_measurement', '/microbiome_otus',
-        '/microbiome_profiles', '/microbiome_profile',
-        '/microbiome_samples', '/microbiome_sample', '/pots',
-        '/pot', '/reference_sequences', '/reference_sequence',
-        '/roles', '/samples', '/sample',
-        '/sample_to_metabolite_measurements', '/soil_samples',
-        '/soil_sample', '/taxons', '/taxon', '/user2roles',
-        '/user2role', '/users', '/user'
-      ],
+      resources: ['/cultivars', '/cultivar', '/field_plots', '/field_plot',
+        '/individuals',  '/metabolite_measurements', '/metabolite_measurement',
+        '/microbiome_otus', '/microbiome_profiles', '/microbiome_profile',
+        '/microbiome_samples', '/microbiome_sample', '/plant_measurement',
+        '/plant_measurements','/pots', '/pot', '/reference_sequences',
+        '/reference_sequence', '/roles', '/samples', '/sample',
+        '/sample_to_metabolite_measurements', '/soil_samples', '/soil_sample',
+        '/taxons', '/taxon', '/transcript_counts', '/transcript_count',
+        '/user2roles', '/user2role', '/users', '/user' ],
       permissions: '*'
     }]
   }, {
