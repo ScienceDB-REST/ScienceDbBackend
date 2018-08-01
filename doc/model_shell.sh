@@ -33,3 +33,11 @@ express_route_gen .  --name sample_to_metabolite_measurement --attributes 'metab
 ./node_modules/.bin/sequelize model:create --name microbiome_otu --attributes 'otu_id:string, sample_id:integer, sample_desc:string, count:integer, experiment:string, version:integer, kingdom:string, createdAt:date, updatedAt:date, taxon_id:integer, reference_sequence:string, parent_id:integer'
 ./node_modules/.bin/sequelize db:migrate
 express_route_gen . --name microbiome_otu --attributes 'otu_id:string, sample_id:integer, sample_desc:string, count:integer, experiment:string, version:integer, kingdom:string, createdAt:date, updatedAt:date, taxon_id:integer, reference_sequence:string, parent_id:integer' --acl 1
+
+./node_modules/.bin/sequelize model:create --name plant_measurement --attributes 'variable:string, value:numeric, unit:string, individual_id:integer'
+./node_modules/.bin/sequelize db:migrate
+express_route_gen . --name plant_measurement --attributes 'variable:string, value:numeric, unit:string, individual_id:integer' --acl 1
+
+./node_modules/.bin/sequelize model:create --name transcript_count --attributes 'gene:string, variable:string, count:numeric, tissue_or_condition:string'
+./node_modules/.bin/sequelize db:migrate
+express_route_gen . --name transcript_count --attributes 'gene:string, variable:string, count:numeric, tissue_or_condition:string' --acl 1
