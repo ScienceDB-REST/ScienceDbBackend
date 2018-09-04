@@ -117,6 +117,11 @@ const reconstructUsers = [{
     email: 'barbara.orth@agroscope.admin.ch',
     name: 'Barbara Orth',
     password: 'Barbara09!Orth90'
+  },
+  {
+    email: 'mhajheid@uni-koeln.de',
+    name: 'Mohsen Hajheidari',
+    password: 'Mohsen0308!'
   }
 ]
 
