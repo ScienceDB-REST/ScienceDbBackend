@@ -2,11 +2,7 @@
 module.exports = function(sequelize, DataTypes) {
   var cultivar = sequelize.define('cultivar', {
     description: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
+      type: DataTypes.STRING
     },
     genotype: {
       type: DataTypes.STRING,
