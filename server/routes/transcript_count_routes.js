@@ -39,6 +39,18 @@ router.get('/transcript_counts/example_csv', acl.middleware(1),
         })
     })
 
+// get CSV of all transcript_counts
+router.get('/transcript_counts/csv_export', acl.middleware(1),
+    function(req, res) {
+        helper.csvExport(models.transcript_count).then(function(csvStr) {
+            res.set({
+                'Content-Disposition': 'attachment; filename=transcript_counts.csv',
+                'Content-type': 'text/csv'
+            })
+            res.send(csvStr)
+        })
+    })
+
 // get for vue-table
 router.get('/transcript_counts/vue_table', acl.middleware(1),
     function(req, res) {

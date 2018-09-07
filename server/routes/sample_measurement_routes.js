@@ -39,6 +39,18 @@ router.get('/sample_measurements/example_csv', acl.middleware(1),
         })
     })
 
+// get CSV of all sample_measurements
+router.get('/sample_measurements/csv_export', acl.middleware(1),
+    function(req, res) {
+        helper.csvExport(models.sample_measurement).then(function(csvStr) {
+            res.set({
+                'Content-Disposition': 'attachment; filename=sample_measurements.csv',
+                'Content-type': 'text/csv'
+            })
+            res.send(csvStr)
+        })
+    })
+
 // get for vue-table
 router.get('/sample_measurements/vue_table', acl.middleware(1),
     function(req, res) {

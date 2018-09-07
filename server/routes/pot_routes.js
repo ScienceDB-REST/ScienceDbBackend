@@ -39,6 +39,18 @@ router.get('/pots/example_csv', acl.middleware(1),
         })
     })
 
+// get CSV of all pots
+router.get('/pots/csv_export', acl.middleware(1),
+    function(req, res) {
+        helper.csvExport(models.pot).then(function(csvStr) {
+            res.set({
+                'Content-Disposition': 'attachment; filename=pots.csv',
+                'Content-type': 'text/csv'
+            })
+            res.send(csvStr)
+        })
+    })
+
 // get for vue-table
 router.get('/pots/vue_table', acl.middleware(1),
     function(req, res) {

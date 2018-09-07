@@ -39,6 +39,18 @@ router.get('/individuals/example_csv', acl.middleware(1),
         })
     })
 
+// get CSV of all individuals
+router.get('/individuals/csv_export', acl.middleware(1),
+    function(req, res) {
+        helper.csvExport(models.individual).then(function(csvStr) {
+            res.set({
+                'Content-Disposition': 'attachment; filename=individuals.csv',
+                'Content-type': 'text/csv'
+            })
+            res.send(csvStr)
+        })
+    })
+
 // get for vue-table
 router.get('/individuals/vue_table', acl.middleware(1),
     function(req, res) {

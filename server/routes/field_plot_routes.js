@@ -39,6 +39,18 @@ router.get('/field_plots/example_csv', acl.middleware(1),
         })
     })
 
+// get CSV of all field_plots
+router.get('/field_plots/csv_export', acl.middleware(1),
+    function(req, res) {
+        helper.csvExport(models.field_plot).then(function(csvStr) {
+            res.set({
+                'Content-Disposition': 'attachment; filename=field_plots.csv',
+                'Content-type': 'text/csv'
+            })
+            res.send(csvStr)
+        })
+    })
+
 // get for vue-table
 router.get('/field_plots/vue_table', acl.middleware(1),
     function(req, res) {

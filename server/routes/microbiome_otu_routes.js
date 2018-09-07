@@ -39,6 +39,18 @@ router.get('/microbiome_otus/example_csv', acl.middleware(1),
         })
     })
 
+// get CSV of all microbiome_otus
+router.get('/microbiome_otus/csv_export', acl.middleware(1),
+    function(req, res) {
+        helper.csvExport(models.microbiome_otu).then(function(csvStr) {
+            res.set({
+                'Content-Disposition': 'attachment; filename=microbiome_otus.csv',
+                'Content-type': 'text/csv'
+            })
+            res.send(csvStr)
+        })
+    })
+
 // get for vue-table
 router.get('/microbiome_otus/vue_table', acl.middleware(1),
     function(req, res) {
