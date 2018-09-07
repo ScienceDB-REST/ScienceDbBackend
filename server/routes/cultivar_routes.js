@@ -39,6 +39,18 @@ router.get('/cultivars/example_csv', acl.middleware(1),
         })
     })
 
+// get CSV of all cultivars
+router.get('/cultivars/csv_export', acl.middleware(1),
+    function(req, res) {
+        helper.csvExport(models.cultivar).then(function(csvStr) {
+            res.set({
+                'Content-Disposition': 'attachment; filename=cultivars.csv',
+                'Content-type': 'text/csv'
+            })
+            res.send(csvStr)
+        })
+    })
+
 // get for vue-table
 router.get('/cultivars/vue_table', acl.middleware(1),
     function(req, res) {
