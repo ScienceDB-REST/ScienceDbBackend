@@ -8,6 +8,8 @@ const ExtractJWT = passportJWT.ExtractJwt;
 const LocalStrategy = require('passport-local').Strategy;
 const JWTStrategy = passportJWT.Strategy;
 
+const aclHelper = require('./acl_user_helper.js')
+
 passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
@@ -48,6 +50,11 @@ passport.use(new JWTStrategy({
       .then(user => {
         console.log(
           `User found for ID in payload: ${JSON.stringify(user)}`);
+
+        // Ensure even after session timeout the user's roles are registered
+        // with ACL:
+        aclHelper.registerAclRules(user)
+
         return cb(null, user);
       })
       .catch(err => {
