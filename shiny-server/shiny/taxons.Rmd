@@ -1,0 +1,14 @@
+---
+title: "Test Reconstruct"
+runtime: shiny
+output: html_document
+---
+
+```{r, echo = FALSE}
+require(httr)
+url <- 'https://testuser:fliege12fisch13@graphql.reconstructdb.org/graphql'
+taxons.lst <- content(POST(url, encode = 'form', body = list(query = '{allTaxons{nodes{id name taxonomicLevel}}}')))$data$allTaxons$nodes
+taxons.df <- Reduce(rbind, lapply(taxons.lst, as.data.frame, stringsAsFactors = FALSE))
+
+print(taxons.df)
+```
