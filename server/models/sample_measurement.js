@@ -1,4 +1,7 @@
 'use strict';
+
+const fkValidate = require('../SequelizeForeignKeyValidator.js')
+
 module.exports = function(sequelize, DataTypes) {
   var sample_measurement = sequelize.define('sample_measurement', {
     id: {

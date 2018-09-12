@@ -1,4 +1,7 @@
 'use strict';
+
+const fkValidate = require('../SequelizeForeignKeyValidator.js')
+
 module.exports = function(sequelize, DataTypes) {
   var sample = sequelize.define('sample', {
     name: {
@@ -33,25 +36,33 @@ module.exports = function(sequelize, DataTypes) {
     individual_id: {
       type: DataTypes.INTEGER,
       validate: {
-        isNumeric: true
+        async fkVal(value) {
+          await fkValidate(value, models.individual)
+        }
       }
     },
     field_plot_id: {
       type: DataTypes.INTEGER,
       validate: {
-        isNumeric: true
+        async fkVal(value) {
+          await fkValidate(value, models.field_plot)
+        }
       }
     },
     pot_id: {
       type: DataTypes.INTEGER,
       validate: {
-        isNumeric: true
+        async fkVal(value) {
+          await fkValidate(value, models.pot)
+        }
       }
     },
     parent_id: {
       type: DataTypes.INTEGER,
       validate: {
-        isNumeric: true
+        async fkVal(value) {
+          await fkValidate(value, models.sample)
+        }
       }
     }
   }, {

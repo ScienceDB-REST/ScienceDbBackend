@@ -8,8 +8,8 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      reference_sequence_id: {
-        type: Sequelize.INTEGER
+      reference_sequence: {
+        type: Sequelize.TEXT
       },
       otu_id: {
         type: Sequelize.STRING
@@ -17,8 +17,11 @@ module.exports = {
       sample_id: {
         type: Sequelize.INTEGER
       },
+      taxon_id: {
+        type: Sequelize.INTEGER
+      },
       sample_desc: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       count: {
         type: Sequelize.INTEGER

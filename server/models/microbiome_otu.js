@@ -1,20 +1,27 @@
 'use strict';
+
+const fkValidate = require('../SequelizeForeignKeyValidator.js')
+
 module.exports = function(sequelize, DataTypes) {
   var microbiome_otu = sequelize.define('microbiome_otu', {
     otu_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         isNumeric: true
       }
     },
     sample_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
-        isNumeric: true
+        async fkVal(value) {
+          await fkValidate(value, models.sample)
+        }
       }
     },
     sample_desc: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true
@@ -52,18 +59,16 @@ module.exports = function(sequelize, DataTypes) {
     },
     taxon_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
-        isNumeric: true
-      }
-    },
-    parent_id: {
-      type: DataTypes.INTEGER,
-      validate: {
-        isNumeric: true
+        async fkVal(value) {
+          await fkValidate(value, models.taxon)
+        }
       }
     },
     reference_sequence: {
-      type: DataTypes.STRING
+      allowNull: false,
+      type: DataTypes.TEXT
     }
   }, {
     classMethods: {
@@ -72,11 +77,6 @@ module.exports = function(sequelize, DataTypes) {
           foreignKey: 'taxon_id',
           targetKey: 'id',
           as: 'taxon'
-        })
-        microbiome_otu.belongsTo(models.microbiome_otu, {
-          foreignKey: 'parent_id',
-          targetKey: 'id',
-          as: 'parent'
         })
         microbiome_otu.belongsTo(models.sample, {
           foreignKey: 'sample_id',

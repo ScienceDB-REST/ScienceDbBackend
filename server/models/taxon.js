@@ -1,4 +1,7 @@
 'use strict';
+
+const fkValidate = require('../SequelizeForeignKeyValidator.js')
+
 module.exports = function(sequelize, DataTypes) {
   var taxon = sequelize.define('taxon', {
     id: {
@@ -24,7 +27,9 @@ module.exports = function(sequelize, DataTypes) {
     parent_id: {
       type: DataTypes.INTEGER,
       validate: {
-        isNumeric: true
+        async fkVal(value) {
+          await fkValidate(value, models.taxon)
+        }
       }
     }
   }, {

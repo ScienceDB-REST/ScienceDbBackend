@@ -1,4 +1,7 @@
 'use strict';
+
+const fkValidate = require('../SequelizeForeignKeyValidator.js')
+
 module.exports = function(sequelize, DataTypes) {
   var plant_measurement = sequelize.define('plant_measurement', {
     id: {
@@ -30,7 +33,12 @@ module.exports = function(sequelize, DataTypes) {
     },
     individual_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        async fkVal(value) {
+          await fkValidate(value, models.individual)
+        }
+      }
     }
   }, {
     classMethods: {

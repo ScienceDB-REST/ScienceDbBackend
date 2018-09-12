@@ -25,19 +25,25 @@ module.exports = function(sequelize, DataTypes) {
     cultivar_id: {
       type: DataTypes.INTEGER,
       validate: {
-        isNumeric: true
+        async fkVal(value) {
+          await fkValidate(value, models.cultivar)
+        }
       }
     },
     field_plot_id: {
       type: DataTypes.INTEGER,
       validate: {
-        isNumeric: true
+        async fkVal(value) {
+          await fkValidate(value, models.field_plot)
+        }
       }
     },
     pot_id: {
       type: DataTypes.INTEGER,
       validate: {
-        isNumeric: true
+        async fkVal(value) {
+          await fkValidate(value, models.pot)
+        }
       }
     }
   }, {
