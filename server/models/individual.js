@@ -24,6 +24,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     cultivar_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         async fkVal(value) {
           await fkValidate(value, models.cultivar)
