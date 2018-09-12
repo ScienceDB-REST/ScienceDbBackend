@@ -6,21 +6,11 @@ module.exports = function(sequelize, DataTypes) {
   var User2Role = sequelize.define('User2Role', {
     UserId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        async fkVal(value) {
-          await fkValidate(value, models.User)
-        }
-      }
+      allowNull: false
     },
     RoleId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        async fkVal(value) {
-          await fkValidate(value, models.Role)
-        }
-      }
+      allowNull: false
     }
   }, {
     classMethods: {
