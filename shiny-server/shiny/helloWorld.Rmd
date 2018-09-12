@@ -1,0 +1,9 @@
+---
+title: "Hello world"
+runtime: shiny
+output: html_document
+---
+
+```{r, echo = FALSE}
+hist(rnorm(100))
+```
