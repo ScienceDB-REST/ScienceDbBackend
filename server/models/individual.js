@@ -1,4 +1,7 @@
 'use strict';
+
+const fkValidate = require('../SequelizeForeignKeyValidator.js')
+
 module.exports = function(sequelize, DataTypes) {
   var individual = sequelize.define('individual', {
     name: {
