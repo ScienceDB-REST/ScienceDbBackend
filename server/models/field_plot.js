@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DOUBLE,
       allowNull: false,
       validate: {
-        isNumeric: true,
+        isDecimal: true,
         min: -90,
         max: 90
       }
@@ -21,7 +21,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DOUBLE,
       allowNull: false,
       validate: {
-        isNumeric: true,
+        isDecimal: true,
         min: -180,
         max: 180
       }
