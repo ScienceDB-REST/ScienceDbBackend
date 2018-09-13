@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       count: {
-        type: Sequelize.NUMERIC
+        type: Sequelize.DOUBLE
       },
       tissue_or_condition: {
         type: Sequelize.STRING

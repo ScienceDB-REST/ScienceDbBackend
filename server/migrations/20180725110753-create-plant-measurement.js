@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       value: {
-        type: Sequelize.NUMERIC
+        type: Sequelize.DOUBLE
       },
       unit: {
         type: Sequelize.STRING
