@@ -18,10 +18,10 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     value: {
-      type: DataTypes.NUMERIC,
+      type: DataTypes.DOUBLE,
       allowNull: false,
       validate: {
-        isNumeric: true
+        isDecimal: true
       }
     },
     unit: {

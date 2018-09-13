@@ -10,10 +10,10 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     count: {
-      type: DataTypes.NUMERIC,
+      type: DataTypes.DOUBLE,
       allowNull: false,
       validate: {
-        isNumeric: true
+        isDecimal: true
       }
     },
     tissue_or_condition: {

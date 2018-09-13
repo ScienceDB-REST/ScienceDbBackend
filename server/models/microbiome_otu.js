@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        isNumeric: true
+        isInt: true
       }
     },
     sample_id: {
@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        isNumeric: true,
+        isInt: true,
         min: 0,
       }
     },
@@ -46,7 +46,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        isNumeric: true,
+        isInt: true,
         min: 0
       }
     },
