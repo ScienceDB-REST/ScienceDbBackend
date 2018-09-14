@@ -25,21 +25,17 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     unit: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
+    },
+    sample_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        notEmpty: true
-      }
-    },
-      sample_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          async fkVal(value) {
-            await fkValidate(value, models.sample)
-          }
+        async fkVal(value) {
+          await fkValidate(value, models.sample)
         }
       }
+    }
   }, {
     classMethods: {
       associate: function(models) {
