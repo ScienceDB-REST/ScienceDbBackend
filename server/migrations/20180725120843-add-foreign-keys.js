@@ -16,7 +16,7 @@ module.exports = {
         "ALTER TABLE individuals ADD CONSTRAINT individuals_pot_id_fk FOREIGN KEY (pot_id) REFERENCES pots(id)"
       ),
       queryInterface.sequelize.query(
-        "ALTER TABLE sample_to_sample_measurements ADD CONSTRAINT microbiome_otus_sample_id_fk FOREIGN KEY (sample_id) REFERENCES samples(id)"
+        "ALTER TABLE sample_measurements ADD CONSTRAINT sample_measurements_sample_id_fk FOREIGN KEY (sample_id) REFERENCES samples(id)"
       ),
       queryInterface.sequelize.query(
         "ALTER TABLE microbiome_otus ADD CONSTRAINT microbiome_otus_sample_id_fk FOREIGN KEY (sample_id) REFERENCES samples(id)"

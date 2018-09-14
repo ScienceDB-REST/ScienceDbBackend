@@ -31,16 +31,21 @@ module.exports = function(sequelize, DataTypes) {
         notEmpty: true
       }
     },
-    is_average: {
-      type: DataTypes.BOOLEAN
-    }
+      sample_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          async fkVal(value) {
+            await fkValidate(value, models.sample)
+          }
+        }
+      }
   }, {
     classMethods: {
       associate: function(models) {
-        sample_measurement.belongsToMany(models.sample, {
-          through: 'sample_to_sample_measurements',
-          foreignKey: 'sample_measurement_id',
-          otherKey: 'sample_id'
+        taxon.belongsTo(models.sample, {
+          foreignKey: 'sample_id',
+          targetKey: 'id'
         })
       }
     }

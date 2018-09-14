@@ -1,20 +1,23 @@
 'use strict';
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('reference_sequences', {
+    return queryInterface.createTable('sample_measurements', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      sequence: {
+      variable: {
         type: Sequelize.STRING
       },
-      taxon_id: {
-        type: Sequelize.INTEGER
+      value: {
+        type: Sequelize.DOUBLE
       },
-      microbiome_otu_id: {
+      unit: {
+        type: Sequelize.STRING
+      },
+      sample_id: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -28,6 +31,6 @@ module.exports = {
     });
   },
   down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('reference_sequences');
+    return queryInterface.dropTable('sample_measurements');
   }
 };

@@ -6,7 +6,8 @@
 router.get('/sample_measurements', acl.middleware(1),
     function(req, res) {
         models.
-        sample_measurement.findAll(helper.searchPaginate(req, ["id", "variable", "unit"])).then(function(
+        sample_measurement.findAll(helper.searchPaginate(req,
+            ["id", "variable", "unit"])).then(function(
             sample_measurements) {
             res.json(sample_measurements);
         }).catch(function(err) {
@@ -54,7 +55,8 @@ router.get('/sample_measurements/csv_export', acl.middleware(1),
 // get for vue-table
 router.get('/sample_measurements/vue_table', acl.middleware(1),
     function(req, res) {
-        helper.vueTable(req, models.sample_measurement, ["id", "variable", "unit"]).then(
+        helper.vueTable(req, models.sample_measurement,
+            ["id", "variable", "unit"]).then(
             function(x) {
                 res.json(x)
             }).catch(function(err) {
@@ -71,7 +73,7 @@ router.post('/sample_measurements', acl.middleware(1),
             variable: null,
             value: null,
             unit: null,
-            is_average: null
+            sample_id: null
 
         }, req.body)).then(function(sample_measurement) {
             return helper.setAssociations(
@@ -136,7 +138,7 @@ router.put('/sample_measurement/:id', acl.middleware(1),
                     variable: null,
                     value: null,
                     unit: null,
-                    is_average: null
+                    sample_id: null
 
                 }, req.body)).then(function(sample_measurement) {
                     return helper.setAssociations(
