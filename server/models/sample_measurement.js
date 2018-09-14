@@ -43,7 +43,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        taxon.belongsTo(models.sample, {
+        sample_measurement.belongsTo(models.sample, {
           foreignKey: 'sample_id',
           targetKey: 'id'
         })
