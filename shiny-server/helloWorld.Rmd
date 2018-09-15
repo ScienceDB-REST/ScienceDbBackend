@@ -1,0 +1,32 @@
+---
+title: "ReconstructDb-Shiny"
+runtime: shiny
+output: html_document
+---
+
+```{r include = FALSE}
+library(shiny)
+```
+
+<a href="https://spa.reconstructdb.org">Back to Reconstruct-Db</a>
+
+## Existing documents
+```{r, echo = FALSE}
+docs <- setdiff( system("find . -type f -maxdepth 1", intern = TRUE), "./helloWorld.Rmd" )
+doc.links <- sapply(docs, function(doc) {
+  doc <- sub('./', '', doc, fixed = TRUE)
+  paste('<li><a href="https://shiny.reconstructdb.org/', doc, '">', doc, "</a></li>", sep = "")
+})
+
+HTML(c('<ul>', doc.links, '</ul>'))
+```
+
+## Upload new
+```{r, echo = FALSE}
+fileInput('newDoc', 'Your Rmarkdown / shiny document')
+
+observe({
+  if (is.null(input$newDoc)) return()
+  file.copy(input$newDoc$datapath, "newDoc.Rmd")
+})
+```

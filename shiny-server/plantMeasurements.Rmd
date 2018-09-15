@@ -1,0 +1,25 @@
+---
+title: "Plant Measurements"
+runtime: shiny
+output: html_document
+---
+
+#### Menu
+<ul>
+  <li><a href="https://spa.reconstructdb.org">ReconstructDb</a></li>
+  <li><a href="helloWorld.Rmd">Home</a></li>
+</ul>
+
+```{r, echo = FALSE}
+require(httr)
+options(shiny.sanitize.errors = FALSE)
+url <- 'https://testuser:fliege12fisch13@graphql.reconstructdb.org/graphql'
+plantMeasurements.lst <- content(POST(url, encode = 'form', body = list(query = '{allPlantMeasurements{nodes{id variable value unit individualId}}}')))$data$allPlantMeasurements$nodes
+plantMeasurements.df <- Reduce(rbind, lapply(plantMeasurements.lst, as.data.frame, stringsAsFactors = FALSE))
+
+pm.vars <- unique(plantMeasurements.df$variable)
+
+for (pm.v in pm.vars) {
+  hist(plantMeasurements.df[which(plantMeasurements.df$variable == pm.v), "value"], main = paste("Histogram of", pm.v), xlab = pm.v)
+}
+```
