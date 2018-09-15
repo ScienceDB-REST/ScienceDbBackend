@@ -4,22 +4,86 @@ runtime: shiny
 output: html_document
 ---
 
-#### Menu
-<ul>
-  <li><a href="https://spa.reconstructdb.org">ReconstructDb</a></li>
-  <li><a href="helloWorld.Rmd">Home</a></li>
-</ul>
-
-```{r, echo = FALSE}
+```{r}
 require(httr)
 options(shiny.sanitize.errors = FALSE)
-url <- 'https://testuser:fliege12fisch13@graphql.reconstructdb.org/graphql'
-plantMeasurements.lst <- content(POST(url, encode = 'form', body = list(query = '{allPlantMeasurements{nodes{id variable value unit individualId}}}')))$data$allPlantMeasurements$nodes
-plantMeasurements.df <- Reduce(rbind, lapply(plantMeasurements.lst, as.data.frame, stringsAsFactors = FALSE))
 
+# Get data
+url <-
+  'https://testuser:fliege12fisch13@graphql.reconstructdb.org/graphql'
+plantMeasurements.lst <-
+  content(POST(
+    url,
+    encode = 'form',
+    body = list(
+      query = '{
+        allPlantMeasurements {
+          nodes {
+            id
+            variable
+            value
+            unit
+            individualByIndividualId {
+              name
+              cultivarByCultivarId {
+                genotype
+              }
+            }
+          }
+        }
+      }')))$data$allPlantMeasurements$nodes
+plantMeasurements.df <-
+  Reduce(rbind, lapply(plantMeasurements.lst, function(pm.json) {
+    data.frame(
+      id = pm.json$id,
+      variable = pm.json$variable,
+      value = pm.json$value,
+      unit = pm.json$unit,
+      individual.name = pm.json$individualByIndividualId$name,
+      individual.cultivar.genotype = pm.json$individualByIndividualId$cultivarByCultivarId$genotype,
+      stringsAsFactors = FALSE
+    )
+  }))
+
+
+# The different types of measurements (variables) that were done:
 pm.vars <- unique(plantMeasurements.df$variable)
 
+pm.indiv.cols <-
+  c("individual.name", "individual.cultivar.genotype")
+pm.pca.df <- plantMeasurements.df[, pm.indiv.cols]
+
 for (pm.v in pm.vars) {
-  hist(plantMeasurements.df[which(plantMeasurements.df$variable == pm.v), "value"], main = paste("Histogram of", pm.v), xlab = pm.v)
+  pm.var.sub.df <-
+    plantMeasurements.df[which(plantMeasurements.df$variable == pm.v), c("individual.name", "value")]
+  colnames(pm.var.sub.df) <- c("individual.name", pm.v)
+  #hist(pm.var.sub.df[, pm.v],
+  #     main = paste("Histogram of", pm.v),
+  #     xlab = pm.v)
+  pm.pca.df <-
+    merge(pm.pca.df, pm.var.sub.df, by = "individual.name", all.x = TRUE)
 }
+
+pm.var.cols <- setdiff(colnames(pm.pca.df), pm.indiv.cols)
+pm.non.na.rows <-
+  which(as.logical(apply(pm.pca.df[, pm.var.cols], 1, function(x)
+    all(!is.na(
+      x
+    )))))
+
+# The different genotypes grown and measured:
+pm.genotypes <-
+  factor(pm.pca.df[pm.non.na.rows, "individual.cultivar.genotype"])
+
+pm.pca <-
+  prcomp(pm.pca.df[pm.non.na.rows, pm.var.cols], center = TRUE, scale = TRUE)
+plot(pm.pca$x[, 1:2], col = pm.genotypes, pch = 16, main = "PCA of plant measurements")
+legend(
+  "topright",
+  legend = levels(pm.genotypes),
+  pch = 16,
+  col = unique(pm.genotypes),
+  horiz = TRUE,
+  title = "Genotype"
+)
 ```
