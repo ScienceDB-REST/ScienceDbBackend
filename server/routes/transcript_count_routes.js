@@ -6,7 +6,8 @@
 router.get('/transcript_counts', acl.middleware(1),
     function(req, res) {
         models.
-        transcript_count.findAll(helper.searchPaginate(req, ["id", "gene", "variable", "tissue_or_condition"])).then(function(
+        transcript_count.findAll(helper.searchPaginate(req,
+            ["id", "gene", "variable", "tissue_or_condition"])).then(function(
             transcript_counts) {
             res.json(transcript_counts);
         }).catch(function(err) {
@@ -54,7 +55,8 @@ router.get('/transcript_counts/csv_export', acl.middleware(1),
 // get for vue-table
 router.get('/transcript_counts/vue_table', acl.middleware(1),
     function(req, res) {
-        helper.vueTable(req, models.transcript_count, ["id", "gene", "variable", "tissue_or_condition"]).then(
+        helper.vueTable(req, models.transcript_count,
+            ["id", "gene", "variable", "tissue_or_condition"]).then(
             function(x) {
                 res.json(x)
             }).catch(function(err) {
@@ -71,7 +73,8 @@ router.post('/transcript_counts', acl.middleware(1),
             gene: null,
             variable: null,
             count: null,
-            tissue_or_condition: null
+            tissue_or_condition: null,
+            individual_id: null
 
         }, req.body)).then(function(transcript_count) {
             return helper.setAssociations(
@@ -136,7 +139,8 @@ router.put('/transcript_count/:id', acl.middleware(1),
                     gene: null,
                     variable: null,
                     count: null,
-                    tissue_or_condition: null
+                    tissue_or_condition: null,
+                    individual_id: null
 
                 }, req.body)).then(function(transcript_count) {
                     return helper.setAssociations(

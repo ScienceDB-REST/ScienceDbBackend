@@ -20,6 +20,13 @@ module.exports = {
       tissue_or_condition: {
         type: Sequelize.STRING
       },
+      individual_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'individuals',
+          key: 'id'
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

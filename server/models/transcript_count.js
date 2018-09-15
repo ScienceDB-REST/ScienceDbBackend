@@ -1,4 +1,7 @@
 'use strict';
+
+const fkValidate = require('../SequelizeForeignKeyValidator.js')
+
 module.exports = function(sequelize, DataTypes) {
   var transcript_count = sequelize.define('transcript_count', {
     gene: {
@@ -19,11 +22,24 @@ module.exports = function(sequelize, DataTypes) {
     tissue_or_condition: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    individual_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        async fkVal(value) {
+          await fkValidate(value, models.individual)
+        }
+      }
     }
   }, {
     classMethods: {
       associate: function(models) {
-        // associations can be defined here
+        transcript_count.belongsTo(models.individual, {
+          foreignKey: 'individual_id',
+          targetKey: 'id',
+          as: 'individual'
+        })
       }
     }
   });
