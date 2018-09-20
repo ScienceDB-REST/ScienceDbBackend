@@ -53,7 +53,8 @@ app.use(function(req, res, next) {
 
   // Request headers you wish to allow
   res.setHeader('Access-Control-Allow-Headers',
-    'X-Requested-With,content-type,authorization,Authorization,accept,Accept');
+    'X-Requested-With,content-type,authorization,Authorization,accept,Accept'
+  );
 
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
@@ -107,17 +108,20 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
-    console.log("ERROR Joische Ben:\n" + JSON.stringify(err));
+    console.log("ERROR caught in Express Server:\n" + JSON.stringify(err));
     console.log(err.stack);
     res.status(err.status || 500);
-    res.json({message: (err.message || err)});
+    res.json({
+      message: (err.message || err)
+    });
   });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  console.log("ERROR: " + err);
+  console.log("ERROR caught in Express Server:\n" + JSON.stringify(err));
+  console.log(err.stack);
   res.status(err.status || 500);
   res.json(err);
 });
