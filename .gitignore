@@ -9,3 +9,4 @@ cookies.tmp
 .vscode-upload.json
 token.tmp
 doc/20180912_data_upload/*
+*-create-reconstruct-users.js
