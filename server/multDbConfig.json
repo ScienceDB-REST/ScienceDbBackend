@@ -11,5 +11,31 @@
     "mappings": {
       "religion.js": "mai_sql"
     }
+  },
+  "test": {
+    "mai_sql": {
+      "username": "kodiaq",
+      "password": "kodiaq",
+      "database": "kodiaq",
+      "host": "0.0.0.0",
+      "port": "3306",
+      "dialect": "mysql"
+    },
+    "mappings": {
+      "religion.js": "mai_sql"
+    }
+  },
+  "production": {
+    "mai_sql": {
+      "username": "kodiaq",
+      "password": "kodiaq",
+      "database": "kodiaq",
+      "host": "0.0.0.0",
+      "port": "3306",
+      "dialect": "mysql"
+    },
+    "mappings": {
+      "religion.js": "mai_sql"
+    }
   }
 }
