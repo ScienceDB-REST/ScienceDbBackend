@@ -7,7 +7,7 @@ router.get('/individuals', acl.middleware(1),
     function(req, res) {
         models.
         individual.findAll(helper.searchPaginate(req,
-            ["id", "name"])).then(function(
+            ["id", "name", "developmental_state", "life_cycle_phase", "location_type"])).then(function(
             individuals) {
             res.json(individuals);
         }).catch(function(err) {
@@ -56,7 +56,7 @@ router.get('/individuals/csv_export', acl.middleware(1),
 router.get('/individuals/vue_table', acl.middleware(1),
     function(req, res) {
         helper.vueTable(req, models.individual,
-            ["id", "name"]).then(
+            ["id", "name", "developmental_state", "life_cycle_phase", "location_type"]).then(
             function(x) {
                 res.json(x)
             }).catch(function(err) {
@@ -75,7 +75,10 @@ router.post('/individuals', acl.middleware(1),
             harvest_date: null,
             cultivar_id: null,
             field_plot_id: null,
-            pot_id: null
+            pot_id: null,
+            developmental_state: null,
+            life_cycle_phase: null,
+            location_type: null
 
         }, req.body)).then(function(individual) {
             return helper.setAssociations(
@@ -142,7 +145,10 @@ router.put('/individual/:id', acl.middleware(1),
                     harvest_date: null,
                     cultivar_id: null,
                     field_plot_id: null,
-                    pot_id: null
+                    pot_id: null,
+                    developmental_state: null,
+                    life_cycle_phase: null,
+                    location_type: null
 
                 }, req.body)).then(function(individual) {
                     return helper.setAssociations(

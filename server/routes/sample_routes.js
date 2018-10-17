@@ -7,7 +7,7 @@ router.get('/samples', acl.middleware(1),
     function(req, res) {
         models.
         sample.findAll(helper.searchPaginate(req,
-            ["id", "name", "material", "life_cycle_phase", "description", "library", "barcode_sequence"])).then(function(
+            ["id", "name", "material", "life_cycle_phase", "description", "library", "barcode_sequence", "life_cycle_phase"])).then(function(
             samples) {
             res.json(samples);
         }).catch(function(err) {
@@ -56,7 +56,7 @@ router.get('/samples/csv_export', acl.middleware(1),
 router.get('/samples/vue_table', acl.middleware(1),
     function(req, res) {
         helper.vueTable(req, models.sample,
-            ["id", "name", "material", "life_cycle_phase", "description", "library", "barcode_sequence"]).then(
+            ["id", "name", "material", "life_cycle_phase", "description", "library", "barcode_sequence", "life_cycle_phase"]).then(
             function(x) {
                 res.json(x)
             }).catch(function(err) {
@@ -81,7 +81,8 @@ router.post('/samples', acl.middleware(1),
             parent_id: null,
             library: null,
             barcode_number: null,
-            barcode_sequence: null
+            barcode_sequence: null,
+            life_cycle_phase: null
 
         }, req.body)).then(function(sample) {
             return helper.setAssociations(
@@ -154,7 +155,8 @@ router.put('/sample/:id', acl.middleware(1),
                     parent_id: null,
                     library: null,
                     barcode_number: null,
-                    barcode_sequence: null
+                    barcode_sequence: null,
+                    life_cycle_phase: null
 
                 }, req.body)).then(function(sample) {
                     return helper.setAssociations(
