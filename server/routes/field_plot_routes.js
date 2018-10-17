@@ -6,7 +6,8 @@
 router.get('/field_plots', acl.middleware(1),
     function(req, res) {
         models.
-        field_plot.findAll(helper.searchPaginate(req, ["id", "field_name", "location_code", "soil_treatment"])).then(function(
+        field_plot.findAll(helper.searchPaginate(req,
+            ["id", "field_name", "location_code", "soil_treatment"])).then(function(
             field_plots) {
             res.json(field_plots);
         }).catch(function(err) {
@@ -54,7 +55,8 @@ router.get('/field_plots/csv_export', acl.middleware(1),
 // get for vue-table
 router.get('/field_plots/vue_table', acl.middleware(1),
     function(req, res) {
-        helper.vueTable(req, models.field_plot, ["id", "field_name", "location_code", "soil_treatment"]).then(
+        helper.vueTable(req, models.field_plot,
+            ["id", "field_name", "location_code", "soil_treatment"]).then(
             function(x) {
                 res.json(x)
             }).catch(function(err) {
@@ -92,17 +94,17 @@ router.post('/field_plots/upload_csv', acl.middleware(1),
     function(req, res) {
         delim = req.body.delim
         cols = req.body.cols
-        helper.parseCsv(req.files.csv_file.data.toString(), delim, cols).then(
-            function(data) {
-                models.field_plot.bulkCreate(
-                    data, {
-                        validate: true
-                    }).then(function(data) {
-                    res.json(data)
-                }).catch(function(err) {
-                    res.status(500).json(err)
-                })
-            })
+        tmpFile = path.join(__dirname, '..', '..', 'tmp', uuidV4() + '.csv')
+        req.files.csv_file.mv(tmpFile).then(() => {
+            return helper.parseCsvStream(tmpFile, models.field_plot, delim, cols)
+        }).then(() => {
+            res.status(200).json('OK')
+        }).catch((err) => {
+            console.trace(err)
+            res.status(500).json(err)
+        }).finally(() => {
+            fs.unlinkSync(tmpFile)
+        })
     });
 
 // bulk create field_plots from uploaded xlsx Excel file

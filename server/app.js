@@ -7,12 +7,14 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var swig = require('swig');
 var cors = require('cors');
-var fs = require('fs');
 var acl = require('acl');
 var passport = require('./passport.js')
 jwt = require('jsonwebtoken');
 csv = require('express-csv');
 models = require('./models/index');
+fs = require('fs');
+uuidV4 = require('uuid/v4')
+awaitifyStream = require('awaitify-stream');
 
 
 // Set up authentication:

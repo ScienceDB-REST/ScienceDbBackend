@@ -6,7 +6,8 @@
 router.get('/individuals', acl.middleware(1),
     function(req, res) {
         models.
-        individual.findAll(helper.searchPaginate(req, ["id", "name"])).then(function(
+        individual.findAll(helper.searchPaginate(req,
+            ["id", "name"])).then(function(
             individuals) {
             res.json(individuals);
         }).catch(function(err) {
@@ -54,7 +55,8 @@ router.get('/individuals/csv_export', acl.middleware(1),
 // get for vue-table
 router.get('/individuals/vue_table', acl.middleware(1),
     function(req, res) {
-        helper.vueTable(req, models.individual, ["id", "name"]).then(
+        helper.vueTable(req, models.individual,
+            ["id", "name"]).then(
             function(x) {
                 res.json(x)
             }).catch(function(err) {
@@ -93,17 +95,17 @@ router.post('/individuals/upload_csv', acl.middleware(1),
     function(req, res) {
         delim = req.body.delim
         cols = req.body.cols
-        helper.parseCsv(req.files.csv_file.data.toString(), delim, cols).then(
-            function(data) {
-                models.individual.bulkCreate(
-                    data, {
-                        validate: true
-                    }).then(function(data) {
-                    res.json(data)
-                }).catch(function(err) {
-                    res.status(500).json(err)
-                })
-            })
+        tmpFile = path.join(__dirname, '..', '..', 'tmp', uuidV4() + '.csv')
+        req.files.csv_file.mv(tmpFile).then(() => {
+            return helper.parseCsvStream(tmpFile, models.individual, delim, cols)
+        }).then(() => {
+            res.status(200).json('OK')
+        }).catch((err) => {
+            console.trace(err)
+            res.status(500).json(err)
+        }).finally(() => {
+            fs.unlinkSync(tmpFile)
+        })
     });
 
 // bulk create individuals from uploaded xlsx Excel file

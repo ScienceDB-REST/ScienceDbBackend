@@ -93,17 +93,17 @@ router.post('/sample_measurements/upload_csv', acl.middleware(1),
     function(req, res) {
         delim = req.body.delim
         cols = req.body.cols
-        helper.parseCsv(req.files.csv_file.data.toString(), delim, cols).then(
-            function(data) {
-                models.sample_measurement.bulkCreate(
-                    data, {
-                        validate: true
-                    }).then(function(data) {
-                    res.json(data)
-                }).catch(function(err) {
-                    res.status(500).json(err)
-                })
-            })
+        tmpFile = path.join(__dirname, '..', '..', 'tmp', uuidV4() + '.csv')
+        req.files.csv_file.mv(tmpFile).then(() => {
+            return helper.parseCsvStream(tmpFile, models.sample_measurement, delim, cols)
+        }).then(() => {
+            res.status(200).json('OK')
+        }).catch((err) => {
+            console.trace(err)
+            res.status(500).json(err)
+        }).finally(() => {
+            fs.unlinkSync(tmpFile)
+        })
     });
 
 // bulk create sample_measurements from uploaded xlsx Excel file

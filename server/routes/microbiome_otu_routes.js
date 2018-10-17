@@ -6,7 +6,8 @@
 router.get('/microbiome_otus', acl.middleware(1),
     function(req, res) {
         models.
-        microbiome_otu.findAll(helper.searchPaginate(req, ["id", "otu_id", "sample_desc", "experiment", "kingdom", "reference_sequence"])).then(function(
+        microbiome_otu.findAll(helper.searchPaginate(req,
+            ["id", "otu_id", "sample_desc", "experiment", "kingdom", "reference_sequence"])).then(function(
             microbiome_otus) {
             res.json(microbiome_otus);
         }).catch(function(err) {
@@ -54,7 +55,8 @@ router.get('/microbiome_otus/csv_export', acl.middleware(1),
 // get for vue-table
 router.get('/microbiome_otus/vue_table', acl.middleware(1),
     function(req, res) {
-        helper.vueTable(req, models.microbiome_otu, ["id", "otu_id", "sample_desc", "experiment", "kingdom", "reference_sequence"]).then(
+        helper.vueTable(req, models.microbiome_otu,
+            ["id", "otu_id", "sample_desc", "experiment", "kingdom", "reference_sequence"]).then(
             function(x) {
                 res.json(x)
             }).catch(function(err) {
@@ -99,17 +101,17 @@ router.post('/microbiome_otus/upload_csv', acl.middleware(1),
     function(req, res) {
         delim = req.body.delim
         cols = req.body.cols
-        helper.parseCsv(req.files.csv_file.data.toString(), delim, cols).then(
-            function(data) {
-                models.microbiome_otu.bulkCreate(
-                    data, {
-                        validate: true
-                    }).then(function(data) {
-                    res.json(data)
-                }).catch(function(err) {
-                    res.status(500).json(err)
-                })
-            })
+        tmpFile = path.join(__dirname, '..', '..', 'tmp', uuidV4() + '.csv')
+        req.files.csv_file.mv(tmpFile).then(() => {
+            return helper.parseCsvStream(tmpFile, models.microbiome_otu, delim, cols)
+        }).then(() => {
+            res.status(200).json('OK')
+        }).catch((err) => {
+            console.trace(err)
+            res.status(500).json(err)
+        }).finally(() => {
+            fs.unlinkSync(tmpFile)
+        })
     });
 
 // bulk create microbiome_otus from uploaded xlsx Excel file
