@@ -1,3 +1,6 @@
+# :no_entry: DEPRECATED 
+The restful approach for ScienceDB has been changed to graphql approach for new versions visit [this site](https://github.com/ScienceDb)
+
 # ScienceDbBackend
 
 This is a skeleton NodeJS project using the technology explained in this [Blog post](http://mherman.org/blog/2015/10/22/node-postgres-sequelize/#.VijvshNViko).
